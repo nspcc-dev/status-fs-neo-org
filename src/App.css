@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #111827;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    min-width: 300px;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+.navbar-item,
+.navbar-link {
+    color: #ffffff80 !important;
+    background: transparent !important;
+}
+
+.notification a:not(.button):not(.dropdown-item) {
+    text-decoration: none;
+}
+
+a.navbar-item:hover {
+    color: #fff !important;
+}
+
+@media (min-width: 1025px) {
+    .navbar-menu {
+        margin-right: 6rem;
+    }
+
+    .navbar-brand {
+        margin-left: 6rem;
+    }
+}
