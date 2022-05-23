@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import {
 	Navbar,
@@ -9,14 +9,9 @@ import {
 	Tile,
 	Footer,
 	Notification,
+	Table,
+	Tabs,
 } from 'react-bulma-components';
-import {
-	MapContainer,
-	TileLayer,
-	LayerGroup,
-	Popup,
-  Circle,
-} from 'react-leaflet';
 import { Chart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -27,7 +22,15 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import {
+	MapContainer,
+	TileLayer,
+	LayerGroup,
+	Popup,
+  Circle,
+} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import data from "./output.json";
 import './App.css';
 
 ChartJS.register(
@@ -40,19 +43,34 @@ ChartJS.register(
 );
 
 export const App = () => {
+	const [activeNet, setActiveNet] = useState('mainnet');
 	const [menuActive, setMenuActive] = useState(false);
+
 	const [chartData, setChartData] = useState({
-		labels: ['00:01', '00:02', '00:03', '00:04', '00:05'],
+		labels: [],
 		datasets: [{
-			label: 'Test',
-			data: [1, 0, 1, 1, 5],
+			label: 'Containers',
+			data: [],
 		}],
 	});
 
   const onScroll = (event, block) => {
     const scrollDiv = document.getElementById(block).offsetTop + 30;
     window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
+		setMenuActive(false);
 		event.preventDefault();
+	};
+
+  const getColorStatus = (status) => {
+		let color = 'success';
+		if (status === 'Healthy') {
+			color = 'success';
+		} else if (status === 'Maintenance') {
+			color = 'warning';
+		} else if (status === 'Degraded') {
+			color = 'danger';
+		}
+    return color;
 	};
 
   return (
@@ -80,7 +98,7 @@ export const App = () => {
 					</Navbar.Container>
 					<Navbar.Container align="right">
 						<Navbar.Item renderAs="div" style={{ fontSize: 14 }}>
-							10:00:00 18.05.2022
+							{`${new Date(data.time * 1000).toLocaleTimeString()} ${new Date(data.time * 1000).toLocaleDateString()}`}
 						</Navbar.Item>
 					</Navbar.Container>
 				</Navbar.Menu>
@@ -90,9 +108,9 @@ export const App = () => {
 					<Tile
 						kind="child"
 						renderAs={Notification}
-						color="success"
+						color={getColorStatus(data.status)}
 					>
-						<Heading>Status: Healthy</Heading>
+						<Heading>{`Status: ${data.status}`}</Heading>
 					</Tile>
 					<Box style={{ marginTop: '1.5rem' }} id="main">
 						<Tile kind="ancestor">
@@ -102,20 +120,10 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>Network epoch</Heading>
-								</Tile>
-							</Tile>
-							<Tile kind="parent">
-								<Tile
-									kind="child"
-									renderAs={Notification}
-									color="grey"
-								>
-									<Heading subtitle>Containers</Heading>
-									<Chart
-										type='line'
-										data={chartData}
-									/>
+									<Heading subtitle>
+										{`Network epoch: `}
+										<span>{data.network_epoch}</span>
+									</Heading>
 								</Tile>
 							</Tile>
 						</Tile>
@@ -126,19 +134,72 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>Sidechain endpoints</Heading>
+									<Heading subtitle>Side chain RPC nodes</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => setActiveNet('mainnet')}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => setActiveNet('testnet')}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Table.Container>
+										<Table>
+											<thead>
+												<tr>
+													<th>
+														<abbr>
+															JSON RPC
+														</abbr>
+													</th>
+													<th>
+														<abbr>
+															Websocket RPC
+														</abbr>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{data.side_chain_rpc_nodes[activeNet].map((node) => (
+													<tr key={node[0]}>
+														<td>
+															{node[0]}
+														</td>
+														<td>
+															{node[1]}
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</Table>
+										</Table.Container>
 								</Tile>
 							</Tile>
+						</Tile>
+						{/* <Tile kind="ancestor">
 							<Tile kind="parent">
 								<Tile
 									kind="child"
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>Side chain RPC nodes</Heading>
+									<Heading subtitle>
+										{`Containers: `}
+										<span>{data.containers}</span>
+									</Heading>
+									<Chart
+										type='line'
+										data={chartData}
+									/>
 								</Tile>
 							</Tile>
-						</Tile>
+						</Tile> */}
 					</Box>
 					<Box>
 						<Tile kind="ancestor">
@@ -149,7 +210,28 @@ export const App = () => {
 									color="grey"
 								>
 									<Heading subtitle>NeoFS deposit</Heading>
-									<Heading subtitle size={6}>address NadZ8YfvkddivcFFkztZgfwxZyKf1acpRF | hash script b65d8243ac63983206d17e5221af0653a7266fa1</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => setActiveNet('mainnet')}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => setActiveNet('testnet')}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Heading subtitle size={6}>
+										<span>{`Address `}</span>
+										{data.contract[activeNet].address}
+									</Heading>
+									<Heading subtitle size={6}>
+										<span>{`Hash script `}</span>
+										{data.contract[activeNet].script_hash}
+									</Heading>
 								</Tile>
 							</Tile>
 						</Tile>
@@ -164,21 +246,52 @@ export const App = () => {
 								>
 									<Heading subtitle>Storage node map</Heading>
 									<MapContainer
-										center={[50, 20]}
-										zoom={3}
-										style={{ overflow: 'hidden', height: 600 }}
+										center={[55, 15]}
+										zoom={5}
+										style={{
+											overflow: 'hidden',
+											height: 600,
+											borderRadius: 4,
+										}}
 									>
 										<TileLayer
 											attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 											url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 										/>
-										<LayerGroup>
-											<Circle center={[51.505, -0.09]} pathOptions={{ fillColor: 'red' }} >
-												<Popup>
-													Saint-Petersburg
-												</Popup>
-											</Circle>
-										</LayerGroup>
+										{data.node_map.map((node) => (
+											<LayerGroup key={node.location}>
+												<Circle
+													center={[node.latitude, node.longitude]}
+													radius={10000}
+													pathOptions={node.nodes.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0) > 1 ? {
+														fillColor: 'green',
+													} : {
+														fillColor: 'red',
+													}}
+												>
+													<Popup>
+														<Heading
+															size={6}
+															align="center"
+															style={{ marginBottom: 10 }}
+														>
+															{node.location}
+														</Heading>
+														{node.nodes.map((node_item) => (
+															<Heading
+																key={node_item.net}
+																size={6}
+																align="center"
+																weight="normal"
+																style={{ marginBottom: 5 }}
+															>
+																{`${node_item.net === 'main' ? 'Mainnet' : 'Testnet'}: ${node_item.value} node${node_item.value > 1 ? 's' : ''}`}
+															</Heading>
+														))}
+													</Popup>
+												</Circle>
+											</LayerGroup>
+										))}
 									</MapContainer>
 								</Tile>
 							</Tile>
@@ -194,7 +307,9 @@ export const App = () => {
 					weight="light"
 					subtitle
 					align="center"
-				>Morphbits status monitoring page</Heading>
+				>
+					Morphbits status monitoring page
+				</Heading>
 			</Footer>
     </>
   );
