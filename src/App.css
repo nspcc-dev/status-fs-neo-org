@@ -30,6 +30,28 @@ a.navbar-item:hover {
     color: #fff !important;
 }
 
+.navbar-menu {
+    background: #29363b;
+}
+
+.navbar-burger {
+    color: #ffffff;
+}
+
+.subtitle span {
+    font-weight: 600;
+}
+
+.table {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.table td,
+.table th {
+    font-size: 14px;
+}
+
 @media (min-width: 1025px) {
     .navbar-menu {
         margin-right: 6rem;
@@ -37,5 +59,19 @@ a.navbar-item:hover {
 
     .navbar-brand {
         margin-left: 6rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .section {
+        padding: 1.5rem 1rem;
+    }
+
+    .notification {
+        padding: 1rem;
     }
 }
