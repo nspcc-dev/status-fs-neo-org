@@ -134,6 +134,24 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
+									<Heading subtitle>
+										{`Containers: `}
+										<span>{data.containers}</span>
+									</Heading>
+									{/* <Chart
+										type='line'
+										data={chartData}
+									/> */}
+								</Tile>
+							</Tile>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
 									<Heading subtitle>Side chain RPC nodes</Heading>
 									<Tabs>
 										<Tabs.Tab
@@ -182,24 +200,6 @@ export const App = () => {
 								</Tile>
 							</Tile>
 						</Tile>
-						{/* <Tile kind="ancestor">
-							<Tile kind="parent">
-								<Tile
-									kind="child"
-									renderAs={Notification}
-									color="grey"
-								>
-									<Heading subtitle>
-										{`Containers: `}
-										<span>{data.containers}</span>
-									</Heading>
-									<Chart
-										type='line'
-										data={chartData}
-									/>
-								</Tile>
-							</Tile>
-						</Tile> */}
 					</Box>
 					<Box>
 						<Tile kind="ancestor">
