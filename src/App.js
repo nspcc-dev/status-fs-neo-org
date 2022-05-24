@@ -25,7 +25,7 @@ import {
 import {
 	MapContainer,
 	TileLayer,
-	LayerGroup,
+	LayersControl,
 	Popup,
   Circle,
 } from 'react-leaflet';
@@ -258,40 +258,42 @@ export const App = () => {
 											attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 											url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 										/>
-										{data.node_map.map((node) => (
-											<LayerGroup key={node.location}>
-												<Circle
-													center={[node.latitude, node.longitude]}
-													radius={10000}
-													pathOptions={node.nodes.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0) > 1 ? {
-														fillColor: 'green',
-													} : {
-														fillColor: 'red',
-													}}
-												>
-													<Popup>
-														<Heading
-															size={6}
-															align="center"
-															style={{ marginBottom: 10 }}
-														>
-															{node.location}
-														</Heading>
-														{node.nodes.map((node_item) => (
+										<LayersControl position="bottomright">
+											{data.node_map.map((node) => (
+												<LayersControl.Overlay checked name={node.location} key={node.location}>
+													<Circle
+														center={[node.latitude, node.longitude]}
+														radius={10000}
+														pathOptions={node.nodes.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0) > 1 ? {
+															fillColor: 'green',
+														} : {
+															fillColor: 'red',
+														}}
+													>
+														<Popup>
 															<Heading
-																key={node_item.net}
 																size={6}
 																align="center"
-																weight="normal"
-																style={{ marginBottom: 5 }}
+																style={{ marginBottom: 10 }}
 															>
-																{`${node_item.net === 'main' ? 'Mainnet' : 'Testnet'}: ${node_item.value} node${node_item.value > 1 ? 's' : ''}`}
+																{node.location}
 															</Heading>
-														))}
-													</Popup>
-												</Circle>
-											</LayerGroup>
-										))}
+															{node.nodes.map((node_item) => (
+																<Heading
+																	key={node_item.net}
+																	size={6}
+																	align="center"
+																	weight="normal"
+																	style={{ marginBottom: 5 }}
+																>
+																	{`${node_item.net === 'main' ? 'Mainnet' : 'Testnet'}: ${node_item.value} node${node_item.value > 1 ? 's' : ''}`}
+																</Heading>
+															))}
+														</Popup>
+													</Circle>
+												</LayersControl.Overlay>
+											))}
+										</LayersControl>
 									</MapContainer>
 								</Tile>
 							</Tile>
