@@ -1,0 +1,1 @@
+WEBSTAT_OUTPUT_PATH = './output/'
