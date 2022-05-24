@@ -4,10 +4,12 @@
 /.pnp
 .pnp.js
 .vscode
+env
 
 # production
 /build
 /output
+*output.json
 
 # misc
 .DS_Store
