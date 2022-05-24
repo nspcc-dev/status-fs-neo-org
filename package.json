@@ -1,0 +1,38 @@
+{
+  "name": "morphbits",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@react-leaflet/core": "^2.0.0",
+    "bulma": "^0.9.4",
+    "chart.js": "^3.7.1",
+    "leaflet": "^1.8.0",
+    "react": "^17.0.2",
+    "react-bulma-components": "^4.1.0",
+    "react-chartjs-2": "^4.1.0",
+    "react-dom": "^17.0.2",
+    "react-leaflet": "^4.0.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "react-error-overlay": "^6.0.9"
+  }
+}
