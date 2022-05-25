@@ -17,6 +17,7 @@ Morphbits status monitoring page using React framework under the hood
 ## Get output.json with metrics
 1. Update `config.py` file
 ```
+WEBSTAT_SERVER_HOST = 'https://monitor.nspcc.ru:8428' # default value
 WEBSTAT_OUTPUT_PATH = './output/' # default value
 ```
 2. Start python script
