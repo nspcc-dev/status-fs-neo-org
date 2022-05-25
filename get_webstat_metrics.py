@@ -6,9 +6,9 @@ from config import WEBSTAT_OUTPUT_PATH, WEBSTAT_SERVER_HOST
 
 if __name__ == '__main__':
     output = {
-        'status': 'Healthy',
-        'network_epoch': 0,
-        'containers': 0,
+        'status': 'Unknown',
+        'network_epoch': 'unknown',
+        'containers': 'unknown',
         'time': time.time(),
         'node_map': [],
         'contract': {
@@ -43,37 +43,41 @@ if __name__ == '__main__':
         },
     }
     
-    response_epoch = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
-    output['network_epoch'] = response_epoch['data']['result'][0]['value'][1]
+    try:
+        response_epoch = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
+        output['network_epoch'] = response_epoch['data']['result'][0]['value'][1]
 
-    response_containers = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
-    output['containers'] = response_containers['data']['result'][0]['value'][1]
+        response_containers = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
+        output['containers'] = response_containers['data']['result'][0]['value'][1]
 
-    response_map = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_netmap").json()
-    map_node = []
-    for node in response_map['data']['result']:
-        is_exist = False
-        for map_node_item in map_node:
-            if map_node_item['location'] == node['metric']['location']:
-                is_exist = True
-                map_node_item['nodes'].append({
-                    "value": node['value'][1],
-                    "net": node['metric']['net'],
+        response_map = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_netmap").json()
+        map_node = []
+        for node in response_map['data']['result']:
+            is_exist = False
+            for map_node_item in map_node:
+                if map_node_item['location'] == node['metric']['location']:
+                    is_exist = True
+                    map_node_item['nodes'].append({
+                        "value": node['value'][1],
+                        "net": node['metric']['net'],
+                    })
+                    break
+
+            if not is_exist:
+                map_node.append({
+                    "latitude": node['metric']['latitude'],
+                    "location": node['metric']['location'],
+                    "longitude": node['metric']['longitude'],
+                    "nodes": [{
+                        "value": node['value'][1],
+                        "net": node['metric']['net'],
+                    }],
                 })
-                break
 
-        if not is_exist:
-            map_node.append({
-                "latitude": node['metric']['latitude'],
-                "location": node['metric']['location'],
-                "longitude": node['metric']['longitude'],
-                "nodes": [{
-                    "value": node['value'][1],
-                    "net": node['metric']['net'],
-                }],
-            })
-
-    output['node_map'] = map_node
+        output['node_map'] = map_node
+        output['status'] = 'Healthy'
+    except:
+        print('Connection error')
 
     with open(f"{WEBSTAT_OUTPUT_PATH}output.json", 'w') as outfile:
         json.dump(output, outfile)
