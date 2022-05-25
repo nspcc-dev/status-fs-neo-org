@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-from config import WEBSTAT_OUTPUT_PATH
+from config import WEBSTAT_OUTPUT_PATH, WEBSTAT_SERVER_HOST
 
 if __name__ == '__main__':
     output = {
@@ -43,13 +43,13 @@ if __name__ == '__main__':
         },
     }
     
-    response_epoch = requests.get("https://monitor.nspcc.ru:8428/api/v1/query?query=neofs_net_monitor_epoch{net='main'}").json()
+    response_epoch = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
     output['network_epoch'] = response_epoch['data']['result'][0]['value'][1]
 
-    response_containers = requests.get("https://monitor.nspcc.ru:8428/api/v1/query?query=neofs_net_monitor_containers_number{net='main'}").json()
+    response_containers = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
     output['containers'] = response_containers['data']['result'][0]['value'][1]
 
-    response_map = requests.get("https://monitor.nspcc.ru:8428/api/v1/query?query=neofs_net_monitor_netmap").json()
+    response_map = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_netmap").json()
     map_node = []
     for node in response_map['data']['result']:
         is_exist = False
