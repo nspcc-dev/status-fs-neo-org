@@ -2,10 +2,15 @@
 import requests
 import json
 import time
-
-from config import WEBSTAT_OUTPUT_PATH, WEBSTAT_SERVER_HOST
+import argparse
+import sys
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--server", type=str, required=True)
+    parser.add_argument("--output", type=str, default='-')
+    args = parser.parse_args()
+
     output = {
         'status': 'Unknown',
         'network_epoch': 'unknown',
@@ -45,13 +50,13 @@ if __name__ == '__main__':
     }
     
     try:
-        response_epoch = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
+        response_epoch = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
         output['network_epoch'] = response_epoch['data']['result'][0]['value'][1]
 
-        response_containers = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
+        response_containers = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
         output['containers'] = response_containers['data']['result'][0]['value'][1]
 
-        response_map = requests.get(f"{WEBSTAT_SERVER_HOST}/api/v1/query?query=neofs_net_monitor_netmap").json()
+        response_map = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_netmap").json()
         map_node = []
         for node in response_map['data']['result']:
             is_exist = False
@@ -79,6 +84,6 @@ if __name__ == '__main__':
         output['status'] = 'Healthy'
     except:
         print('Connection error')
-
-    with open(f"{WEBSTAT_OUTPUT_PATH}/output.json", 'w') as outfile:
-        json.dump(output, outfile)
+    
+    with (open(args.output, 'w') if args.output != '-' else sys.stdout) as handle:
+        handle.write(str(output))
