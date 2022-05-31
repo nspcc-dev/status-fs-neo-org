@@ -1,5 +1,5 @@
 {
-  "name": "morphbits",
+  "name": "neofs_status_page",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
