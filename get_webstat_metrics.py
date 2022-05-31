@@ -80,5 +80,5 @@ if __name__ == '__main__':
     except:
         print('Connection error')
 
-    with open(f"{WEBSTAT_OUTPUT_PATH}output.json", 'w') as outfile:
+    with open(f"{WEBSTAT_OUTPUT_PATH}/output.json", 'w') as outfile:
         json.dump(output, outfile)
