@@ -324,7 +324,7 @@ export const App = () => {
 							subtitle
 							align="center"
 						>
-							Morphbits status monitoring page
+							NeoFS status monitoring page
 						</Heading>
 					</Footer>
 				</>

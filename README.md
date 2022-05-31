@@ -1,8 +1,8 @@
-# Morphbits status page
+# NeoFS Status page
 
 ## Overview
 
-Morphbits status monitoring page using React framework under the hood
+NeoFS status monitoring page using React framework under the hood
 
 ## Requirements
 
