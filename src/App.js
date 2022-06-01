@@ -259,6 +259,20 @@ export const App = () => {
 										color="grey"
 									>
 										<Heading subtitle>Storage node map</Heading>
+										<Tabs>
+											<Tabs.Tab
+												onClick={() => setActiveNet('mainnet')}
+												active={activeNet === 'mainnet'}
+											>
+												N3 Mainnet
+											</Tabs.Tab>
+											<Tabs.Tab
+												onClick={() => setActiveNet('testnet')}
+												active={activeNet === 'testnet'}
+											>
+												N3 Testnet
+											</Tabs.Tab>
+										</Tabs>
 										<MapContainer
 											center={[55, 15]}
 											zoom={5}
@@ -273,7 +287,7 @@ export const App = () => {
 												url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 											/>
 											<LayersControl position="bottomright">
-												{data.node_map.map((node) => (
+												{data.node_map.map((node) => (node.nodes.map((item) => item.net).indexOf(activeNet === 'mainnet' ? 'main' : 'test') !== -1 && (
 													<LayersControl.Overlay checked name={node.location} key={node.location}>
 														<Circle
 															center={[node.latitude, node.longitude]}
@@ -292,7 +306,7 @@ export const App = () => {
 																>
 																	{node.location}
 																</Heading>
-																{node.nodes.map((node_item) => (
+																{node.nodes.map((node_item) => ( node_item.net === (activeNet === 'mainnet' ? 'main' : 'test') && (
 																	<Heading
 																		key={node_item.net}
 																		size={6}
@@ -302,11 +316,11 @@ export const App = () => {
 																	>
 																		{`${node_item.net === 'main' ? 'Mainnet' : 'Testnet'}: ${node_item.value} node${node_item.value > 1 ? 's' : ''}`}
 																	</Heading>
-																))}
+																)))}
 															</Popup>
 														</Circle>
 													</LayersControl.Overlay>
-												))}
+												)))}
 											</LayersControl>
 										</MapContainer>
 									</Tile>
