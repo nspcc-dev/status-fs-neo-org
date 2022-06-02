@@ -13,8 +13,14 @@ if __name__ == '__main__':
 
     output = {
         "status": "Unknown",
-        "network_epoch": "unknown",
-        "containers": "unknown",
+        "network_epoch": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
+        "containers": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
         "time": time.time(),
         "node_map": [],
         "contract": {
@@ -50,11 +56,19 @@ if __name__ == '__main__':
     }
     
     try:
-        response_epoch = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_epoch{{net='main'}}").json()
-        output['network_epoch'] = response_epoch['data']['result'][0]['value'][1]
+        response_epoch = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_epoch").json()
+        for epoch in response_epoch['data']['result']:
+            if epoch['metric']['net'] == 'main':
+                output['network_epoch']['mainnet'] = epoch['value'][1]
+            if epoch['metric']['net'] == 'test':
+                output['network_epoch']['testnet'] = epoch['value'][1]
 
-        response_containers = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_containers_number{{net='main'}}").json()
-        output['containers'] = response_containers['data']['result'][0]['value'][1]
+        response_containers = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_containers_number").json()
+        for container in response_containers['data']['result']:
+            if container['metric']['net'] == 'main':
+                output['containers']['mainnet'] = container['value'][1]
+            if container['metric']['net'] == 'test':
+                output['containers']['testnet'] = container['value'][1]
 
         response_map = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_netmap").json()
         map_node = []
