@@ -134,9 +134,23 @@ export const App = () => {
 										renderAs={Notification}
 										color="grey"
 									>
+										<Tabs>
+											<Tabs.Tab
+												onClick={() => setActiveNet('mainnet')}
+												active={activeNet === 'mainnet'}
+											>
+												N3 Mainnet
+											</Tabs.Tab>
+											<Tabs.Tab
+												onClick={() => setActiveNet('testnet')}
+												active={activeNet === 'testnet'}
+											>
+												N3 Testnet
+											</Tabs.Tab>
+										</Tabs>
 										<Heading subtitle>
 											{`Network epoch: `}
-											<span>{data.network_epoch}</span>
+											<span>{data.network_epoch[activeNet]}</span>
 										</Heading>
 									</Tile>
 								</Tile>
@@ -148,9 +162,23 @@ export const App = () => {
 										renderAs={Notification}
 										color="grey"
 									>
+										<Tabs>
+											<Tabs.Tab
+												onClick={() => setActiveNet('mainnet')}
+												active={activeNet === 'mainnet'}
+											>
+												N3 Mainnet
+											</Tabs.Tab>
+											<Tabs.Tab
+												onClick={() => setActiveNet('testnet')}
+												active={activeNet === 'testnet'}
+											>
+												N3 Testnet
+											</Tabs.Tab>
+										</Tabs>
 										<Heading subtitle>
 											{`Containers: `}
-											<span>{data.containers}</span>
+											<span>{data.containers[activeNet]}</span>
 										</Heading>
 										{/* <Chart
 											type='line'
