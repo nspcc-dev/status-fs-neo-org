@@ -22,14 +22,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import {
-	MapContainer,
-	TileLayer,
-	LayersControl,
-	Popup,
-  Circle,
-} from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 import './App.css';
 
@@ -65,6 +57,81 @@ export const App = () => {
 			setData(myJson);
 		});
   },[]);
+
+	useEffect(() => {
+		if (document.getElementById('mapcontainer')) {
+			onInitMap(activeNet);
+		}
+	},[data]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const onInitMap = (activeNet) => {
+		document.getElementById('mapcontainer').innerHTML = '';
+    const width = document.getElementById('mapcontainer').offsetWidth;
+		const height = width / 1.5;
+
+		const projection = window.d3
+			.geo
+			.mercator()
+			.translate([(width / 4.5), (height * 2.2)])
+			.scale(width * 3 / Math.PI);
+		const path = window.d3
+			.geo
+			.path()
+			.projection(projection);
+		const svg = window.d3
+			.select("#mapcontainer")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height + 8)
+			.append("g");
+		const g = svg
+			.append("g");
+		
+		const net = activeNet === 'mainnet' ? 'main' : 'test';
+		window.d3.json("https://api.github.com/gists/9398333", (error, root) => {
+			let world = JSON.parse(root.files['world.json'].content);
+			const countries = window.topojson.feature(world, world.objects.countries).features;
+			const country = g.selectAll(".country").data(countries);
+			country
+				.enter()
+				.insert("path")
+				.attr("class", "country")
+				.attr("d", path)
+				.attr("id", (d) => d.id)
+				.style("fill", '#49cc90');
+			
+				const tip = window.d3
+					.select("body")
+					.append("div");
+				g.selectAll("circle")
+					.data(data.node_map.filter(item => item.nodes.map((node) => node.net).indexOf(net) !== -1))
+					.enter()
+					.append("circle")
+					.attr("class", "mapcircle")
+					.attr("cx", (d) => projection([d.longitude, d.latitude])[0])
+					.attr("cy", (d) => projection([d.longitude, d.latitude])[1])
+					.attr("r", "7")
+					.on("mouseover", (d) => {
+						const circ = window.d3.select(this);
+						circ.attr("class", "mouseover mapcircle");
+						tip.html(`
+							<div class='title is-6' style='margin-bottom: 10px'>${d.location}</div>
+							<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item) => item.net === net)[0].value} node${d.nodes.filter((item) => item.net === net)[0].value > 1 ? 's' : ''}</div>
+						`);
+						tip.transition()
+							.attr("class", "tooltip")
+							.style("display", "block");
+						tip.style("left", window.d3.event.pageX + 5 + "px")
+							.style("top", window.d3.event.pageY - 25 + "px");
+					})
+					.on("mouseout", () => {
+						const circ=window.d3.select(this);
+						circ.attr("class", "mouseout mapcircle");
+						tip.transition()
+							.style("display", "none");
+					});
+		});
+	};
 
   const onScroll = (event, block) => {
     const scrollDiv = document.getElementById(block).offsetTop + 30;
@@ -136,13 +203,19 @@ export const App = () => {
 									>
 										<Tabs>
 											<Tabs.Tab
-												onClick={() => setActiveNet('mainnet')}
+												onClick={() => {
+													setActiveNet('mainnet');
+													onInitMap('mainnet');
+												}}
 												active={activeNet === 'mainnet'}
 											>
 												N3 Mainnet
 											</Tabs.Tab>
 											<Tabs.Tab
-												onClick={() => setActiveNet('testnet')}
+												onClick={() => {
+													setActiveNet('testnet');
+													onInitMap('testnet');
+												}}
 												active={activeNet === 'testnet'}
 											>
 												N3 Testnet
@@ -164,13 +237,19 @@ export const App = () => {
 									>
 										<Tabs>
 											<Tabs.Tab
-												onClick={() => setActiveNet('mainnet')}
+												onClick={() => {
+													setActiveNet('mainnet');
+													onInitMap('mainnet');
+												}}
 												active={activeNet === 'mainnet'}
 											>
 												N3 Mainnet
 											</Tabs.Tab>
 											<Tabs.Tab
-												onClick={() => setActiveNet('testnet')}
+												onClick={() => {
+													setActiveNet('testnet');
+													onInitMap('testnet');
+												}}
 												active={activeNet === 'testnet'}
 											>
 												N3 Testnet
@@ -197,13 +276,19 @@ export const App = () => {
 										<Heading subtitle>Side chain RPC nodes</Heading>
 										<Tabs>
 											<Tabs.Tab
-												onClick={() => setActiveNet('mainnet')}
+												onClick={() => {
+													setActiveNet('mainnet');
+													onInitMap('mainnet');
+												}}
 												active={activeNet === 'mainnet'}
 											>
 												N3 Mainnet
 											</Tabs.Tab>
 											<Tabs.Tab
-												onClick={() => setActiveNet('testnet')}
+												onClick={() => {
+													setActiveNet('testnet');
+													onInitMap('testnet');
+												}}
 												active={activeNet === 'testnet'}
 											>
 												N3 Testnet
@@ -254,13 +339,19 @@ export const App = () => {
 										<Heading subtitle>NeoFS deposit</Heading>
 										<Tabs>
 											<Tabs.Tab
-												onClick={() => setActiveNet('mainnet')}
+												onClick={() => {
+													setActiveNet('mainnet');
+													onInitMap('mainnet');
+												}}
 												active={activeNet === 'mainnet'}
 											>
 												N3 Mainnet
 											</Tabs.Tab>
 											<Tabs.Tab
-												onClick={() => setActiveNet('testnet')}
+												onClick={() => {
+													setActiveNet('testnet');
+													onInitMap('testnet');
+												}}
 												active={activeNet === 'testnet'}
 											>
 												N3 Testnet
@@ -289,68 +380,25 @@ export const App = () => {
 										<Heading subtitle>Storage node map</Heading>
 										<Tabs>
 											<Tabs.Tab
-												onClick={() => setActiveNet('mainnet')}
+												onClick={() => {
+													setActiveNet('mainnet');
+													onInitMap('mainnet');
+												}}
 												active={activeNet === 'mainnet'}
 											>
 												N3 Mainnet
 											</Tabs.Tab>
 											<Tabs.Tab
-												onClick={() => setActiveNet('testnet')}
+												onClick={() => {
+													setActiveNet('testnet');
+													onInitMap('testnet');
+												}}
 												active={activeNet === 'testnet'}
 											>
 												N3 Testnet
 											</Tabs.Tab>
 										</Tabs>
-										<MapContainer
-											center={[55, 15]}
-											zoom={5}
-											style={{
-												overflow: 'hidden',
-												height: 600,
-												borderRadius: 4,
-											}}
-										>
-											<TileLayer
-												attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-												url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-											/>
-											<LayersControl position="bottomright">
-												{data.node_map.map((node) => (node.nodes.map((item) => item.net).indexOf(activeNet === 'mainnet' ? 'main' : 'test') !== -1 && (
-													<LayersControl.Overlay checked name={node.location} key={node.location}>
-														<Circle
-															center={[node.latitude, node.longitude]}
-															radius={10000}
-															pathOptions={node.nodes.reduce((previousValue, currentValue) => previousValue + Number(currentValue.value), 0) > 1 ? {
-																fillColor: 'green',
-															} : {
-																fillColor: 'red',
-															}}
-														>
-															<Popup>
-																<Heading
-																	size={6}
-																	align="center"
-																	style={{ marginBottom: 10 }}
-																>
-																	{node.location}
-																</Heading>
-																{node.nodes.map((node_item) => ( node_item.net === (activeNet === 'mainnet' ? 'main' : 'test') && (
-																	<Heading
-																		key={node_item.net}
-																		size={6}
-																		align="center"
-																		weight="normal"
-																		style={{ marginBottom: 5 }}
-																	>
-																		{`${node_item.net === 'main' ? 'Mainnet' : 'Testnet'}: ${node_item.value} node${node_item.value > 1 ? 's' : ''}`}
-																	</Heading>
-																)))}
-															</Popup>
-														</Circle>
-													</LayersControl.Overlay>
-												)))}
-											</LayersControl>
-										</MapContainer>
+										<div id="mapcontainer" />
 									</Tile>
 								</Tile>
 							</Tile>
