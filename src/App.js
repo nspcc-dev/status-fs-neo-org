@@ -408,13 +408,56 @@ export const App = () => {
 					<Footer
 						style={{ padding: '40px 20px' }}
 					>
+						<div className="socials">
+							<a href="https://neo.org/" target="_blank" rel="noopener noreferrer">
+								<img
+									src="./img/socials/neo.svg"
+									width={26}
+									height={26}
+									style={{ filter: 'invert(1)' }}
+									alt="neo logo"
+								/>
+							</a>
+							<a href="https://nspcc.ru/en" target="_blank" rel="noopener noreferrer" style={{ borderRight: '2px solid #000000', paddingRight: 20 }}>
+								<img
+									src="./img/socials/neo_spcc.svg"
+									width={37}
+									height={37}
+									alt="neo spcc logo"
+								/>
+							</a>
+							<a href="https://github.com/nspcc-dev" target="_blank" rel="noopener noreferrer">
+								<img
+									src="./img/socials/github.svg"
+									width={30}
+									height={30}
+									alt="github logo"
+								/>
+							</a>
+							<a href="https://twitter.com/neospcc" target="_blank" rel="noopener noreferrer">
+								<img
+									src="./img/socials/twitter.svg"
+									width={30}
+									height={30}
+									alt="twitter logo"
+								/>
+							</a>
+							<a href="https://www.youtube.com/channel/UCAC6lR1bJFv0-O07Nol_p8w" target="_blank" rel="noopener noreferrer">
+								<img
+									src="./img/socials/youtube.svg"
+									width={30}
+									height={30}
+									alt="youtube logo"
+								/>
+							</a>
+						</div>
 						<Heading
 							size={6}
 							weight="light"
 							subtitle
 							align="center"
 						>
-							NeoFS status monitoring page
+							2022 © NeoFS status monitoring page
 						</Heading>
 					</Footer>
 				</>
