@@ -26,6 +26,10 @@ li {
     text-decoration: none;
 }
 
+.notification {
+    padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+}
+
 a.navbar-item:hover {
     color: #fff !important;
 }
