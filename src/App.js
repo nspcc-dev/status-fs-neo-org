@@ -4,7 +4,6 @@ import {
 	Navbar,
 	Container,
 	Section,
-	Box,
 	Heading,
 	Tile,
 	Footer,
@@ -12,42 +11,16 @@ import {
 	Table,
 	Tabs,
 } from 'react-bulma-components';
-import { Chart } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
 import './App.css';
+import worldData from './world_data.json';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-);
 
 export const App = () => {
 	const [activeNet, setActiveNet] = useState('mainnet');
 	const [menuActive, setMenuActive] = useState(false);
-	const [data, setData]=useState();
+	const [data, setData] = useState();
 
-	const [chartData, setChartData] = useState({
-		labels: [],
-		datasets: [{
-			label: 'Containers',
-			data: [],
-		}],
-	});
-
-  useEffect(()=>{
+  useEffect(() => {
     fetch('output.json', {
 			'headers' : { 
         'Content-Type': 'application/json',
@@ -88,49 +61,47 @@ export const App = () => {
 			.append("g");
 		
 		const net = activeNet === 'mainnet' ? 'main' : 'test';
-		window.d3.json("https://api.github.com/gists/9398333", (error, root) => {
-			let world = JSON.parse(root.files['world.json'].content);
-			const countries = window.topojson.feature(world, world.objects.countries).features;
-			const country = g.selectAll(".country").data(countries);
-			country
+		const world = JSON.parse(worldData.content);
+		const countries = window.topojson.feature(world, world.objects.countries).features;
+		const country = g.selectAll(".country").data(countries);
+		country
+			.enter()
+			.insert("path")
+			.attr("class", "country")
+			.attr("d", path)
+			.attr("id", (d) => d.id)
+			.style("fill", '#49cc90');
+		
+			const tip = window.d3
+				.select("body")
+				.append("div");
+			g.selectAll("circle")
+				.data(data.node_map.filter(item => item.nodes.map((node) => node.net).indexOf(net) !== -1))
 				.enter()
-				.insert("path")
-				.attr("class", "country")
-				.attr("d", path)
-				.attr("id", (d) => d.id)
-				.style("fill", '#49cc90');
-			
-				const tip = window.d3
-					.select("body")
-					.append("div");
-				g.selectAll("circle")
-					.data(data.node_map.filter(item => item.nodes.map((node) => node.net).indexOf(net) !== -1))
-					.enter()
-					.append("circle")
-					.attr("class", "mapcircle")
-					.attr("cx", (d) => projection([d.longitude, d.latitude])[0])
-					.attr("cy", (d) => projection([d.longitude, d.latitude])[1])
-					.attr("r", "7")
-					.on("mouseover", (d) => {
-						const circ = window.d3.select(this);
-						circ.attr("class", "mouseover mapcircle");
-						tip.html(`
-							<div class='title is-6' style='margin-bottom: 10px'>${d.location}</div>
-							<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item) => item.net === net)[0].value} node${d.nodes.filter((item) => item.net === net)[0].value > 1 ? 's' : ''}</div>
-						`);
-						tip.transition()
-							.attr("class", "tooltip")
-							.style("display", "block");
-						tip.style("left", window.d3.event.pageX + 5 + "px")
-							.style("top", window.d3.event.pageY - 25 + "px");
-					})
-					.on("mouseout", () => {
-						const circ=window.d3.select(this);
-						circ.attr("class", "mouseout mapcircle");
-						tip.transition()
-							.style("display", "none");
-					});
-		});
+				.append("circle")
+				.attr("class", "mapcircle")
+				.attr("cx", (d) => projection([d.longitude, d.latitude])[0])
+				.attr("cy", (d) => projection([d.longitude, d.latitude])[1])
+				.attr("r", "7")
+				.on("mouseover", (d) => {
+					const circ = window.d3.select(this);
+					circ.attr("class", "mouseover mapcircle");
+					tip.html(`
+						<div class='title is-6' style='margin-bottom: 10px'>${d.location}</div>
+						<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item) => item.net === net)[0].value} node${d.nodes.filter((item) => item.net === net)[0].value > 1 ? 's' : ''}</div>
+					`);
+					tip.transition()
+						.attr("class", "tooltip")
+						.style("display", "block");
+					tip.style("left", window.d3.event.pageX + 5 + "px")
+						.style("top", window.d3.event.pageY - 25 + "px");
+				})
+				.on("mouseout", () => {
+					const circ=window.d3.select(this);
+					circ.attr("class", "mouseout mapcircle");
+					tip.transition()
+						.style("display", "none");
+				});
 	};
 
   const onScroll = (event, block) => {
