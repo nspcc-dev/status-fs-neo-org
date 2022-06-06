@@ -72,8 +72,8 @@ export const App = () => {
 		const projection = window.d3
 			.geo
 			.mercator()
-			.translate([(width / 4.5), (height * 2.2)])
-			.scale(width * 3 / Math.PI);
+			.translate([(width / 2), (height / 1.4)])
+			.scale(width / 2 / Math.PI);
 		const path = window.d3
 			.geo
 			.path()
