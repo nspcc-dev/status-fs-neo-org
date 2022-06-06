@@ -12,7 +12,8 @@ NeoFS status monitoring page using React framework under the hood
 - python
 
 ## Make instruction
-* Compile the build using `make` (will be generated in `output` folder)
+* Compile the build using `make` (will be generated in `output` dir)
+* For GitHub release use `make release` and attach all files from `release` dir
 
 ## Getting started for getting metrics
 1. Create virtual environment
@@ -27,4 +28,4 @@ python3 get_webstat_metrics.py
 ```
 Parameters:
 - `--server` - server api path (required)
-- `--output` - output folder with the file name and extension (by default, stdout)
+- `--output` - output dir with the file name and extension (by default, stdout)
