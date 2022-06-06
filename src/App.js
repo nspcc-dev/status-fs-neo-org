@@ -193,216 +193,176 @@ export const App = () => {
 						>
 							<Heading>{`Status: ${data.status}`}</Heading>
 						</Tile>
-						<Box style={{ marginTop: '1.5rem' }} id="main">
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
-										<Tabs>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('mainnet');
-													onInitMap('mainnet');
-												}}
-												active={activeNet === 'mainnet'}
-											>
-												N3 Mainnet
-											</Tabs.Tab>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('testnet');
-													onInitMap('testnet');
-												}}
-												active={activeNet === 'testnet'}
-											>
-												N3 Testnet
-											</Tabs.Tab>
-										</Tabs>
-										<Heading subtitle>
-											{`Network epoch: `}
-											<span>{data.network_epoch[activeNet]}</span>
-										</Heading>
-									</Tile>
+						<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Heading subtitle>
+										{`Network epoch: `}
+										<span>{data.network_epoch[activeNet]}</span>
+									</Heading>
+									<Heading subtitle>
+										{`Containers: `}
+										<span>{data.containers[activeNet]}</span>
+									</Heading>
 								</Tile>
 							</Tile>
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
-										<Tabs>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('mainnet');
-													onInitMap('mainnet');
-												}}
-												active={activeNet === 'mainnet'}
-											>
-												N3 Mainnet
-											</Tabs.Tab>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('testnet');
-													onInitMap('testnet');
-												}}
-												active={activeNet === 'testnet'}
-											>
-												N3 Testnet
-											</Tabs.Tab>
-										</Tabs>
-										<Heading subtitle>
-											{`Containers: `}
-											<span>{data.containers[activeNet]}</span>
-										</Heading>
-										{/* <Chart
-											type='line'
-											data={chartData}
-										/> */}
-									</Tile>
-								</Tile>
-							</Tile>
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
-										<Heading subtitle>Side chain RPC nodes</Heading>
-										<Tabs>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('mainnet');
-													onInitMap('mainnet');
-												}}
-												active={activeNet === 'mainnet'}
-											>
-												N3 Mainnet
-											</Tabs.Tab>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('testnet');
-													onInitMap('testnet');
-												}}
-												active={activeNet === 'testnet'}
-											>
-												N3 Testnet
-											</Tabs.Tab>
-										</Tabs>
-										<Table.Container>
-											<Table>
-												<thead>
-													<tr>
-														<th>
-															<abbr>
-																JSON RPC
-															</abbr>
-														</th>
-														<th>
-															<abbr>
-																Websocket RPC
-															</abbr>
-														</th>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Heading subtitle>Side chain RPC nodes</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Table.Container>
+										<Table>
+											<thead>
+												<tr>
+													<th>
+														<abbr>
+															JSON RPC
+														</abbr>
+													</th>
+													<th>
+														<abbr>
+															Websocket RPC
+														</abbr>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{data.side_chain_rpc_nodes[activeNet].map((node) => (
+													<tr key={node[0]}>
+														<td>
+															{node[0]}
+														</td>
+														<td>
+															{node[1]}
+														</td>
 													</tr>
-												</thead>
-												<tbody>
-													{data.side_chain_rpc_nodes[activeNet].map((node) => (
-														<tr key={node[0]}>
-															<td>
-																{node[0]}
-															</td>
-															<td>
-																{node[1]}
-															</td>
-														</tr>
-													))}
-												</tbody>
-											</Table>
-											</Table.Container>
-									</Tile>
+												))}
+											</tbody>
+										</Table>
+										</Table.Container>
 								</Tile>
 							</Tile>
-						</Box>
-						<Box>
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
-										<Heading subtitle>NeoFS deposit</Heading>
-										<Tabs>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('mainnet');
-													onInitMap('mainnet');
-												}}
-												active={activeNet === 'mainnet'}
-											>
-												N3 Mainnet
-											</Tabs.Tab>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('testnet');
-													onInitMap('testnet');
-												}}
-												active={activeNet === 'testnet'}
-											>
-												N3 Testnet
-											</Tabs.Tab>
-										</Tabs>
-										<Heading subtitle size={6}>
-											<span>{`Address `}</span>
-											{data.contract[activeNet].address}
-										</Heading>
-										<Heading subtitle size={6}>
-											<span>{`Hash script `}</span>
-											{data.contract[activeNet].script_hash}
-										</Heading>
-									</Tile>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Heading subtitle>NeoFS deposit</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Heading subtitle size={6}>
+										<span>{`Address `}</span>
+										{data.contract[activeNet].address}
+									</Heading>
+									<Heading subtitle size={6}>
+										<span>{`Hash script `}</span>
+										{data.contract[activeNet].script_hash}
+									</Heading>
 								</Tile>
 							</Tile>
-						</Box>
-						<Box id="map">
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
-										<Heading subtitle>Storage node map</Heading>
-										<Tabs>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('mainnet');
-													onInitMap('mainnet');
-												}}
-												active={activeNet === 'mainnet'}
-											>
-												N3 Mainnet
-											</Tabs.Tab>
-											<Tabs.Tab
-												onClick={() => {
-													setActiveNet('testnet');
-													onInitMap('testnet');
-												}}
-												active={activeNet === 'testnet'}
-											>
-												N3 Testnet
-											</Tabs.Tab>
-										</Tabs>
-										<div id="mapcontainer" />
-									</Tile>
+						</Tile>
+						<Tile kind="ancestor" id="map">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Heading subtitle>Storage node map</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<div id="mapcontainer" />
 								</Tile>
 							</Tile>
-						</Box>
+						</Tile>
 					</Section>
 					</Container>
 					<Footer
