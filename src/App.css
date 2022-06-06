@@ -60,13 +60,8 @@ a.navbar-item:hover {
     line-height: 0;
 }
 
-#mapcontainer .country:hover {
-    stroke: #fff;
-    stroke-width: 1.5px;
-}
-
 #mapcontainer .country {
-    stroke: #c8e8f9;
+    stroke: #c8e8f952;
     stroke-width: 0.5px;
 }
 
