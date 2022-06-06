@@ -38,9 +38,10 @@ export const App = () => {
 	},[data]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onInitMap = (activeNet) => {
-		document.getElementById('mapcontainer').innerHTML = '';
     const width = document.getElementById('mapcontainer').offsetWidth;
 		const height = width / 1.5;
+
+		document.getElementById('mapcontainer').innerHTML = '';
 
 		const projection = window.d3
 			.geo
