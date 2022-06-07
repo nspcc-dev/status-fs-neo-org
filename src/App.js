@@ -389,7 +389,7 @@ export const App = () => {
 							subtitle
 							align="center"
 						>
-							2022 © NeoFS status monitoring page
+							NeoFS status monitoring page
 						</Heading>
 					</Footer>
 				</>
