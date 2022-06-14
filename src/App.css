@@ -34,7 +34,8 @@ a.navbar-item:hover {
     color: #fff !important;
 }
 
-.navbar {
+.navbar,
+.navbar-menu {
     background: #29363b;
 }
 
