@@ -126,7 +126,7 @@ export const App = () => {
 
   return (
     <>
-			<Navbar style={{ background: "#2b393f" }}>
+			<Navbar>
 				<Navbar.Brand>
 					<Navbar.Item renderAs="div">
 						<img src="./img/logo.svg" height="28" width="112" alt="logo"/>

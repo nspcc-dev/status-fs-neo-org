@@ -98,6 +98,80 @@ a.navbar-item:hover {
     margin: 0 10px;
 }
 
+@media (prefers-color-scheme: dark) {
+
+    .navbar-menu,
+    .footer {
+        background: #2d333b;
+    }
+
+    body {
+        color: #adbac7;
+        background: #22272d;
+    }
+
+    .subtitle,
+    .table thead td,
+    .table thead th,
+    .table td,
+    .table th,
+    .navbar-item,
+    .navbar-link {
+        color: #adbac7 !important;
+    }
+
+    .navbar {
+        background: #2d333b;
+    }
+
+    .tabs li.is-active a {
+        border-bottom-color: #539bf5;
+        color: #539bf5;
+    }
+
+    .tabs ul,
+    .tabs a {
+        border-bottom-color: #444c56;
+    }
+
+    .tabs a:hover {
+        border-bottom-color: #363e47;
+    }
+
+    .table td,
+    .table th {
+        border-bottom-color: #444c56;
+    }
+
+    .notification {
+        background: #22272d;
+        border: 2px solid #343942;
+    }
+
+    .table {
+        background: transparent;
+        border: 1px solid #444c56;
+        border-collapse: separate;
+    }
+
+    thead tr th {
+        background: #2d333b;
+        border-radius: 3px 3px 0 0;
+    }
+
+    thead tr th:first-child {
+        border-radius: 3px 0 0 0;
+    }
+
+    thead tr th:last-child {
+        border-radius: 0 3px 0 0;
+    }
+
+    .socials a {
+        filter: invert(1);
+    }
+}
+
 @media (min-width: 1025px) {
     .navbar-menu {
         margin-right: 6rem;
