@@ -120,6 +120,8 @@ export const App = () => {
 			color = 'warning';
 		} else if (status === 'Degraded') {
 			color = 'danger';
+		} else if (status === 'Unknown') {
+			color = 'grey';
 		}
     return color;
 	};
@@ -161,9 +163,9 @@ export const App = () => {
 						<Tile
 							kind="child"
 							renderAs={Notification}
-							color={getColorStatus(data.status)}
+							color={getColorStatus(new Date().getTime() - (data.time * 1000) < 600000 ? data.status : 'Unknown')}
 						>
-							<Heading>{`Status: ${data.status}`}</Heading>
+							<Heading>{`Status: ${new Date().getTime() - (data.time * 1000) < 600000 ? data.status : 'Unknown'}`}</Heading>
 						</Tile>
 						<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
 							<Tile kind="parent">
