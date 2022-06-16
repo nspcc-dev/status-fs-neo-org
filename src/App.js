@@ -126,6 +126,13 @@ export const App = () => {
     return color;
 	};
 
+	function checkRelevanceData() {
+		const currentTimestamp = new Date().getTime();
+		const dataTimeMs = data.time * 1000;
+		const timeRelevance = 2 * 300000; // new data generate each 300000 ms, check for double missing data time
+    return currentTimestamp - dataTimeMs < timeRelevance;
+	};
+
   return (
     <>
 			<Navbar>
@@ -163,9 +170,9 @@ export const App = () => {
 						<Tile
 							kind="child"
 							renderAs={Notification}
-							color={getColorStatus(new Date().getTime() - (data.time * 1000) < 600000 ? data.status : 'Unknown')}
+							color={getColorStatus(checkRelevanceData() ? data.status : 'Unknown')}
 						>
-							<Heading>{`Status: ${new Date().getTime() - (data.time * 1000) < 600000 ? data.status : 'Unknown'}`}</Heading>
+							<Heading>{`Status: ${checkRelevanceData() ? data.status : 'Unknown'}`}</Heading>
 						</Tile>
 						<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
 							<Tile kind="parent">
