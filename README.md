@@ -11,9 +11,10 @@ NeoFS status monitoring page using React framework under the hood
 - node.js
 - python
 
-## Make instruction
+## Make instructions
 * Compile the build using `make` (will be generated in `output` dir)
-* For GitHub release use `make release` and attach all files from `release` dir
+* Start app using `make start PORT=3000` (PORT=3000 by default)
+* Get release dir with tar.gz using `make release`
 
 ## Getting started for getting metrics
 1. Create virtual environment
