@@ -340,6 +340,10 @@ export const App = () => {
 											N3 Testnet
 										</Tabs.Tab>
 									</Tabs>
+									<Heading subtitle size={6}>
+										{`Nodes: `}
+										<span>{data.node_map.map((item) => item.nodes).flat().reduce((prev, cur) => cur.net === (activeNet === 'mainnet' ? 'main' : 'test') ? prev + Number(cur.value) : prev, 0)}</span>
+									</Heading>
 									<div id="mapcontainer" />
 								</Tile>
 							</Tile>
