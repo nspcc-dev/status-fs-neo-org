@@ -16,6 +16,10 @@ li {
     list-style-type: none;
 }
 
+.notification.is-success {
+    background-color: #2da44e;
+}
+
 .navbar-item,
 .navbar-link {
     color: #ffffff80 !important;
