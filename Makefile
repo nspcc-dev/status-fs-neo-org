@@ -21,3 +21,8 @@ release: all
 	@mkdir release
 	@tar -czvf release/neofs-web-stat.tar.gz -C output .
 	@cp get_webstat_metrics.py release
+
+clean:
+	@rm -rf release
+	@rm -rf output
+	@rm -rf node_modules
