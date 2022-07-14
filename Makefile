@@ -4,6 +4,7 @@ PORT = 3000
 all:
 	@rm -rf output
 	docker run \
+	-u `stat -c "%u:%g" .` \
 	-v `pwd`:/usr/src/app \
 	-w /usr/src/app node:12-alpine \
 	sh -c 'npm install --silent && npm run build'
