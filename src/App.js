@@ -280,6 +280,67 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
+									<Heading subtitle>NeoGo RPC nodes</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Table.Container>
+										<Table>
+											<thead>
+												<tr>
+													<th>
+														<abbr>
+															JSON RPC
+														</abbr>
+													</th>
+													<th>
+														<abbr>
+															Websocket RPC
+														</abbr>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{data.neo_go_rpc_nodes[activeNet].map((node) => (
+													<tr key={node[0]}>
+														<td>
+															{node[0]}
+														</td>
+														<td>
+															{node[1]}
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</Table>
+										</Table.Container>
+								</Tile>
+							</Tile>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
 									<Heading subtitle>NeoFS deposit</Heading>
 									<Tabs>
 										<Tabs.Tab

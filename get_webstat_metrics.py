@@ -53,6 +53,14 @@ if __name__ == '__main__':
                 ["https://rpc7.morph.t5.fs.neo.org:51331", "wss://rpc7.morph.t5.fs.neo.org:51331/ws"],
             ],
         },
+        "neo_go_rpc_nodes": {
+            "mainnet": [
+                ["https://rpc10.n3.nspcc.ru:10332", "wss://rpc10.n3.nspcc.ru:10332/ws"],
+            ],
+            "testnet": [
+                ["https://rpc.t5.n3.nspcc.ru:20332", "wss://rpc.t5.n3.nspcc.ru:20332/ws"],
+            ],
+        },
     }
     
     try:
