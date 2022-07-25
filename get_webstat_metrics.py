@@ -29,8 +29,8 @@ if __name__ == '__main__':
                 "script_hash": "2cafa46838e8b564468ebd868dcafdd99dce6221",
             },
             "testnet": {
-                "address": "NadZ8YfvkddivcFFkztZgfwxZyKf1acpRF",
-                "script_hash": "b65d8243ac63983206d17e5221af0653a7266fa1",
+                "address": "NZAUkYbJ1Cb2HrNmwZ1pg9xYHBhm2FgtKV",
+                "script_hash": "3c3f4b84773ef0141576e48c3ff60e5078235891",
             }
         },
         "side_chain_rpc_nodes": {
@@ -44,13 +44,13 @@ if __name__ == '__main__':
                 ["https://rpc7.morph.fs.neo.org:40341", "wss://rpc7.morph.fs.neo.org:40341/ws"],
             ],
             "testnet": [
-                ["https://rpc01.morph.testnet.fs.neo.org:51331", "wss://rpc01.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc02.morph.testnet.fs.neo.org:51331", "wss://rpc02.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc03.morph.testnet.fs.neo.org:51331", "wss://rpc03.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc04.morph.testnet.fs.neo.org:51331", "wss://rpc04.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc05.morph.testnet.fs.neo.org:51331", "wss://rpc05.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc06.morph.testnet.fs.neo.org:51331", "wss://rpc06.morph.testnet.fs.neo.org:51331/ws"],
-                ["https://rpc07.morph.testnet.fs.neo.org:51331", "wss://rpc07.morph.testnet.fs.neo.org:51331/ws"],
+                ["https://rpc1.morph.t5.fs.neo.org:51331", "wss://rpc1.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc2.morph.t5.fs.neo.org:51331", "wss://rpc2.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc3.morph.t5.fs.neo.org:51331", "wss://rpc3.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc4.morph.t5.fs.neo.org:51331", "wss://rpc4.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc5.morph.t5.fs.neo.org:51331", "wss://rpc5.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc6.morph.t5.fs.neo.org:51331", "wss://rpc6.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc7.morph.t5.fs.neo.org:51331", "wss://rpc7.morph.t5.fs.neo.org:51331/ws"],
             ],
         },
     }
