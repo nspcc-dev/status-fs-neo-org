@@ -201,11 +201,11 @@ export const App = () => {
 											N3 Testnet
 										</Tabs.Tab>
 									</Tabs>
-									<Heading subtitle>
+									<Heading subtitle size={6}>
 										{`Network epoch: `}
 										<span>{data.network_epoch[activeNet]}</span>
 									</Heading>
-									<Heading subtitle>
+									<Heading subtitle size={6}>
 										{`Containers: `}
 										<span>{data.containers[activeNet]}</span>
 									</Heading>
@@ -219,7 +219,46 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>Side chain RPC nodes</Heading>
+									<Heading subtitle weight="semibold">NeoFS deposit</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Heading subtitle size={6}>
+										<span>{`Address: `}</span>
+										{data.contract[activeNet].address}
+									</Heading>
+									<Heading subtitle size={6}>
+										<span>{`Hash script: `}</span>
+										{data.contract[activeNet].script_hash}
+									</Heading>
+								</Tile>
+							</Tile>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Heading subtitle weight="semibold">Side chain RPC nodes</Heading>
 									<Tabs>
 										<Tabs.Tab
 											onClick={() => {
@@ -280,7 +319,68 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>NeoGo RPC nodes</Heading>
+									<Heading subtitle weight="semibold">Storage nodes</Heading>
+									<Tabs>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('mainnet');
+												onInitMap('mainnet');
+											}}
+											active={activeNet === 'mainnet'}
+										>
+											N3 Mainnet
+										</Tabs.Tab>
+										<Tabs.Tab
+											onClick={() => {
+												setActiveNet('testnet');
+												onInitMap('testnet');
+											}}
+											active={activeNet === 'testnet'}
+										>
+											N3 Testnet
+										</Tabs.Tab>
+									</Tabs>
+									<Table.Container>
+										<Table>
+											<thead>
+												<tr>
+													<th>
+														<abbr>
+															Secured(TLS) endpoint
+														</abbr>
+													</th>
+													<th>
+														<abbr>
+															Insecure endpoint
+														</abbr>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{data.storage_nodes[activeNet].map((node) => (
+													<tr key={node[0]}>
+														<td>
+															{node[0]}
+														</td>
+														<td>
+															{node[1]}
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</Table>
+										</Table.Container>
+								</Tile>
+							</Tile>
+						</Tile>
+						<Tile kind="ancestor">
+							<Tile kind="parent">
+								<Tile
+									kind="child"
+									renderAs={Notification}
+									color="grey"
+								>
+									<Heading subtitle weight="semibold">NeoGo RPC nodes</Heading>
 									<Tabs>
 										<Tabs.Tab
 											onClick={() => {
@@ -334,45 +434,6 @@ export const App = () => {
 								</Tile>
 							</Tile>
 						</Tile>
-						<Tile kind="ancestor">
-							<Tile kind="parent">
-								<Tile
-									kind="child"
-									renderAs={Notification}
-									color="grey"
-								>
-									<Heading subtitle>NeoFS deposit</Heading>
-									<Tabs>
-										<Tabs.Tab
-											onClick={() => {
-												setActiveNet('mainnet');
-												onInitMap('mainnet');
-											}}
-											active={activeNet === 'mainnet'}
-										>
-											N3 Mainnet
-										</Tabs.Tab>
-										<Tabs.Tab
-											onClick={() => {
-												setActiveNet('testnet');
-												onInitMap('testnet');
-											}}
-											active={activeNet === 'testnet'}
-										>
-											N3 Testnet
-										</Tabs.Tab>
-									</Tabs>
-									<Heading subtitle size={6}>
-										<span>{`Address `}</span>
-										{data.contract[activeNet].address}
-									</Heading>
-									<Heading subtitle size={6}>
-										<span>{`Hash script `}</span>
-										{data.contract[activeNet].script_hash}
-									</Heading>
-								</Tile>
-							</Tile>
-						</Tile>
 						<Tile kind="ancestor" id="map">
 							<Tile kind="parent">
 								<Tile
@@ -380,7 +441,7 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle>Storage node map</Heading>
+									<Heading subtitle weight="semibold">Storage node map</Heading>
 									<Tabs>
 										<Tabs.Tab
 											onClick={() => {
