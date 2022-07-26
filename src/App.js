@@ -219,7 +219,7 @@ export const App = () => {
 									renderAs={Notification}
 									color="grey"
 								>
-									<Heading subtitle weight="semibold">NeoFS deposit</Heading>
+									<Heading subtitle weight="semibold">NeoFS contract</Heading>
 									<Tabs>
 										<Tabs.Tab
 											onClick={() => {
