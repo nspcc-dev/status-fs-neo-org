@@ -16,6 +16,29 @@ li {
     list-style-type: none;
 }
 
+.custom_loader {
+    display: flex;
+    margin: 5px auto 15px;
+    -webkit-animation: pulse 1.5s infinite linear;
+    animation: pulse 1.5s infinite linear;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
 .notification.is-success {
     background-color: #2da44e;
 }
