@@ -69,10 +69,10 @@ if __name__ == '__main__':
         },
         "neo_go_rpc_nodes": {
             "mainnet": [
-                ["https://rpc10.n3.nspcc.ru:10332", "wss://rpc10.n3.nspcc.ru:10332/ws"],
+                ["https://rpc10.n3.nspcc.ru:10331", "wss://rpc10.n3.nspcc.ru:10331/ws"],
             ],
             "testnet": [
-                ["https://rpc.t5.n3.nspcc.ru:20332", "wss://rpc.t5.n3.nspcc.ru:20332/ws"],
+                ["https://rpc.t5.n3.nspcc.ru:20331", "wss://rpc.t5.n3.nspcc.ru:20331/ws"],
             ],
         },
     }
