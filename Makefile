@@ -1,28 +1,42 @@
 #!/usr/bin/make -f
+
+SHELL = bash
+
+VERSION ?= $(shell git rev-parse --short=8 HEAD)
+SITE_DIR ?= status.fs.neo.org
+RELEASE_DIR ?= $(SITE_DIR)-$(VERSION)
+RELEASE_PATH ?= $(SITE_DIR)-$(VERSION).tar.gz
+CURRENT_UID ?=  $(shell id -u $$USER)
+
 PORT = 3000
 
-all:
-	@rm -rf output
+$(SITE_DIR):
 	docker run \
-	-u `stat -c "%u:%g" .` \
-	-v `pwd`:/usr/src/app \
-	-w /usr/src/app node:14-alpine \
-	sh -c 'npm install --silent && npm run build'
+	-v $$(pwd)/src:/usr/src/app/src \
+	-v $$(pwd)/public:/usr/src/app/public \
+	-v $$(pwd)/package.json:/usr/src/app/package.json \
+	-v $$(pwd)/$(SITE_DIR):/usr/src/app/$(SITE_DIR) \
+	-e CURRENT_UID=$(CURRENT_UID) \
+	-w /usr/src/app node:12-alpine \
+	sh -c 'npm install && npm run build && chown -R $$CURRENT_UID: $(SITE_DIR)'
 
 start:
 	docker run \
 	-p $(PORT):3000 \
 	-v `pwd`:/usr/src/app \
 	-w /usr/src/app node:14-alpine \
-	sh -c 'npm install --silent && npm run build && npm install -g serve && serve -s output -p 3000'
+	sh -c 'npm install --silent && npm run build && npm install -g serve && serve -s $(SITE_DIR) -p 3000'
 
-release: all
-	@rm -rf release
-	@mkdir release
-	@tar -czvf release/neofs-web-stat.tar.gz -C output .
-	@cp get_webstat_metrics.py release
+release: $(SITE_DIR)
+	@ln -sf $(SITE_DIR) $(RELEASE_DIR)
+	@tar cfvhz $(RELEASE_PATH) $(RELEASE_DIR)
 
 clean:
-	@rm -rf release
-	@rm -rf output
-	@rm -rf node_modules
+	@echo "Cleaning up ..."
+	@rm -rf $(SITE_DIR) $(RELEASE_DIR) $(RELEASE_PATH)
+
+release_name:
+	@echo $(RELEASE_PATH)
+
+version:
+	@echo $(VERSION)
