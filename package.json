@@ -6,9 +6,7 @@
     "bulma": "^0.9.4",
     "react": "^17.0.2",
     "react-bulma-components": "^4.1.0",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "react-dom": "^17.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,6 +26,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-error-overlay": "^6.0.9"
+    "react-scripts": "^5.0.1"
   }
 }
