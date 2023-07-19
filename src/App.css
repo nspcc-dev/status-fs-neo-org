@@ -84,6 +84,14 @@ a.navbar-item:hover {
     font-size: 14px;
 }
 
+.tag_network {
+    margin: 0 !important;
+}
+
+.tag_network .tag {
+    background-color: #ffffff;
+}
+
 #mapcontainer {
     border: 0;
     border-radius: 6px;
