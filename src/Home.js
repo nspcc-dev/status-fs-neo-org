@@ -93,9 +93,9 @@ const Home = ({
 		let color = 'success';
 		if (status === 'Healthy') {
 			color = 'success';
-		} else if (status === 'Maintenance') {
-			color = 'warning';
 		} else if (status === 'Degraded') {
+			color = 'warning';
+		} else if (status === 'Severe') {
 			color = 'danger';
 		} else if (status === 'Unknown') {
 			color = 'grey';
@@ -117,12 +117,16 @@ const Home = ({
 					{!isError && data ? (
 						<Section>
 							<Tile
+								id="status"
 								kind="child"
 								renderAs={Notification}
-								color={getColorStatus(checkRelevanceData() ? data.status : 'Unknown')}
+								color={getColorStatus(checkRelevanceData() ? data.status[activeNet] : 'Unknown')}
 								style={{ marginTop: '1.5rem' }}
 							>
-								<Heading>{`${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${checkRelevanceData() ? data.status : 'Unknown'}`}</Heading>
+								<Heading>{`${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${checkRelevanceData() ? data.status[activeNet] : 'Unknown'}`}</Heading>
+								{data.statusmsg && ((activeNet === 'mainnet' && data.statusmsg[activeNet]) || (activeNet === 'testnet' && data.statusmsg[activeNet])) && (
+									<Heading subtitle size={6}>{data.statusmsg[activeNet]}</Heading>
+								)}
 							</Tile>
 							<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
 								<Tile kind="parent">
