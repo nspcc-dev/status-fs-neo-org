@@ -39,6 +39,10 @@ li {
     }
 }
 
+#status .subtitle {
+    color: currentColor !important;
+}
+
 .notification.is-success {
     background-color: #2da44e;
 }

@@ -12,7 +12,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     output = {
-        "status": "Unknown",
+        "status": {
+            "mainnet": "Unknown",
+            "testnet": "Unknown",
+        },
         "network_epoch": {
             "mainnet": "unknown",
             "testnet": "unknown",
@@ -94,7 +97,14 @@ if __name__ == '__main__':
 
         response_map = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_netmap").json()
         map_node = []
+        node_mainnet_count = 0
+        node_testnet_count = 0
         for node in response_map['data']['result']:
+            if node['metric']['net'] == 'main':
+                node_mainnet_count += int(node['value'][1])
+            elif node['metric']['net'] == 'test':
+                node_testnet_count += int(node['value'][1])
+
             is_exist = False
             for map_node_item in map_node:
                 if map_node_item['location'] == node['metric']['location']:
@@ -117,9 +127,28 @@ if __name__ == '__main__':
                 })
 
         output['node_map'] = map_node
-        output['status'] = 'Healthy'
+
+        output['status']['mainnet'] = "Healthy"
+        if node_mainnet_count <= 3:
+            output['status']['mainnet'] = "Severe"
+            output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
+        elif node_mainnet_count <= 4:
+            output['status']['mainnet'] = "Degraded"
+            output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
+
+        output['status']['testnet'] = "Healthy"
+        if node_testnet_count <= 2:
+            output['status']['testnet'] = "Severe"
+            output['statusmsg']['testnet'] = f"{node_testnet_count} / 4 nodes is available"
+        elif node_testnet_count <= 3:
+            output['status']['testnet'] = "Degraded"
+            output['statusmsg']['testnet'] = f"{node_testnet_count} / 4 nodes is available"
     except:
-        output['status'] = 'Unknown' # Connection error
-    
+        # Connection error
+        output['status'] = {
+            "mainnet": "Unknown",
+            "testnet": "Unknown",
+        }
+
     with (open(args.output, 'w') if args.output != '-' else sys.stdout) as handle:
         handle.write(json.dumps(output, separators=(',', ':')))
