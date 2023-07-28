@@ -1,11 +1,54 @@
 #!/usr/bin/env python3
+from neo3.core import types
+from neo3.api.helpers import unwrap
+from neo3.api.wrappers import ChainFacade, GenericContract
+import asyncio
 import requests
 import json
 import time
 import argparse
 import sys
 
-if __name__ == '__main__':
+
+NETMAP_HASH_MAINNET = '0x7c5bdb23e36cc7cce95bf42f3ab9e452c2501df1'
+NETMAP_HASH_TESTNET = '0xc4576ea5c3081dd765a17aaaa73d9352e74bdc28'
+
+
+async def check_epoch(output, net, rpc_host, netmap_hash):
+    response_getblockcount = requests.post(rpc_host, data=json.dumps({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getblockcount",
+        "params": []
+    })).json()
+    block_count = response_getblockcount['result']
+
+    facade = ChainFacade(rpc_host=rpc_host)
+    contract_hash = types.UInt160.from_string(netmap_hash)
+    contract = GenericContract(contract_hash)
+    result = await facade.test_invoke(contract.call_function("lastEpochBlock"))
+    last_epoch_block = unwrap.as_int(result)
+    result = await facade.test_invoke(contract.call_function("config", ['EpochDuration']))
+    epoch_duration = int.from_bytes(unwrap.as_bytes(result)[:2], "little")
+
+    response_getblockheader = requests.post(rpc_host, data=json.dumps({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getblockheader",
+        "params": [block_count - 1, 1]
+    })).json()
+    block_timestamp = response_getblockheader['result']['time']
+
+    if block_count - 1 - epoch_duration - 10 > last_epoch_block:
+        output['status'][net] = 'Degraded'
+        output['statusmsg'][net] = f"Epoch is not updated for {block_count - 1 - last_epoch_block} block(s) (normal duration: {epoch_duration})"
+
+    if block_timestamp + (5 * 60000) < int(time.time()) * 1000:
+        output['status'][net] = 'Degraded'
+        output['statusmsg'][net] = "No new blocks for more than 5m"
+
+
+async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--server", type=str, required=True)
     parser.add_argument("--output", type=str, default='-')
@@ -16,6 +59,7 @@ if __name__ == '__main__':
             "mainnet": "Unknown",
             "testnet": "Unknown",
         },
+        "statusmsg": {},
         "network_epoch": {
             "mainnet": "unknown",
             "testnet": "unknown",
@@ -128,6 +172,9 @@ if __name__ == '__main__':
 
         output['node_map'] = map_node
 
+        await check_epoch(output, 'mainnet', output['side_chain_rpc_nodes']['mainnet'][4][0], NETMAP_HASH_MAINNET)
+        await check_epoch(output, 'testnet', output['side_chain_rpc_nodes']['testnet'][2][0], NETMAP_HASH_TESTNET)
+
         output['status']['mainnet'] = "Healthy"
         if node_mainnet_count <= 3:
             output['status']['mainnet'] = "Severe"
@@ -152,3 +199,6 @@ if __name__ == '__main__':
 
     with (open(args.output, 'w') if args.output != '-' else sys.stdout) as handle:
         handle.write(json.dumps(output, separators=(',', ':')))
+
+if __name__ == "__main__":
+    asyncio.run(main())
