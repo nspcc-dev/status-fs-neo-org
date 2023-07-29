@@ -11,6 +11,7 @@ import worldData from './world_data.json';
 
 const Home = ({
 	activeNet,
+	location,
 	isError,
 	isLoading,
 	data,
@@ -19,7 +20,7 @@ const Home = ({
 		if (document.getElementById('mapcontainer')) {
 			onInitMap(activeNet);
 		}
-	},[data]); // eslint-disable-line react-hooks/exhaustive-deps
+	},[data, location]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onInitMap = (activeNet) => {
     const width = document.getElementById('mapcontainer').offsetWidth;
