@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Route, Routes, Navigate } from "react-router-dom";
+import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import 'bulma/css/bulma.min.css';
 import {
 	Navbar,
@@ -12,6 +12,7 @@ import './App.css';
 
 
 export const App = () => {
+	const location = useLocation();
 	const [isError, setError] = useState(false);
 	const [isLoading, setLoading] = useState(true);
 	const [menuActive, setMenuActive] = useState(false);
@@ -85,6 +86,7 @@ export const App = () => {
 						path="/"
 						element={<Home
 							activeNet="mainnet"
+							location={location}
 							isError={isError}
 							isLoading={isLoading}
 							data={data}
@@ -94,6 +96,7 @@ export const App = () => {
 						path="/testnet"
 						element={<Home
 							activeNet="testnet"
+							location={location}
 							isError={isError}
 							isLoading={isLoading}
 							data={data}
