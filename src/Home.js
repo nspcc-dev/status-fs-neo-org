@@ -172,47 +172,6 @@ const Home = ({
 										renderAs={Notification}
 										color="grey"
 									>
-										<Heading subtitle weight="semibold">Side chain RPC nodes</Heading>
-										<Table.Container>
-											<Table>
-												<thead>
-													<tr>
-														<th>
-															<abbr>
-																JSON RPC
-															</abbr>
-														</th>
-														<th>
-															<abbr>
-																Websocket RPC
-															</abbr>
-														</th>
-													</tr>
-												</thead>
-												<tbody>
-													{data.side_chain_rpc_nodes && data.side_chain_rpc_nodes[activeNet].map((node) => (
-														<tr key={node[0]}>
-															<td>
-																{node[0]}
-															</td>
-															<td>
-																{node[1]}
-															</td>
-														</tr>
-													))}
-												</tbody>
-											</Table>
-											</Table.Container>
-									</Tile>
-								</Tile>
-							</Tile>
-							<Tile kind="ancestor">
-								<Tile kind="parent">
-									<Tile
-										kind="child"
-										renderAs={Notification}
-										color="grey"
-									>
 										<Heading subtitle weight="semibold">Storage nodes</Heading>
 										<Table.Container>
 											<Table>
@@ -273,6 +232,47 @@ const Home = ({
 												</thead>
 												<tbody>
 													{data.neo_go_rpc_nodes && data.neo_go_rpc_nodes[activeNet].map((node) => (
+														<tr key={node[0]}>
+															<td>
+																{node[0]}
+															</td>
+															<td>
+																{node[1]}
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</Table>
+											</Table.Container>
+									</Tile>
+								</Tile>
+							</Tile>
+							<Tile kind="ancestor">
+								<Tile kind="parent">
+									<Tile
+										kind="child"
+										renderAs={Notification}
+										color="grey"
+									>
+										<Heading subtitle weight="semibold">Side chain RPC nodes</Heading>
+										<Table.Container>
+											<Table>
+												<thead>
+													<tr>
+														<th>
+															<abbr>
+																JSON RPC
+															</abbr>
+														</th>
+														<th>
+															<abbr>
+																Websocket RPC
+															</abbr>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													{data.side_chain_rpc_nodes && data.side_chain_rpc_nodes[activeNet].map((node) => (
 														<tr key={node[0]}>
 															<td>
 																{node[0]}
