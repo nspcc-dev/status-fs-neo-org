@@ -172,10 +172,11 @@ async def main():
 
         output['node_map'] = map_node
 
+        output['status']['mainnet'] = "Healthy"
+        output['status']['testnet'] = "Healthy"
         await check_epoch(output, 'mainnet', output['side_chain_rpc_nodes']['mainnet'][4][0], NETMAP_HASH_MAINNET)
         await check_epoch(output, 'testnet', output['side_chain_rpc_nodes']['testnet'][2][0], NETMAP_HASH_TESTNET)
 
-        output['status']['mainnet'] = "Healthy"
         if node_mainnet_count <= 3:
             output['status']['mainnet'] = "Severe"
             output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
@@ -183,7 +184,6 @@ async def main():
             output['status']['mainnet'] = "Degraded"
             output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
 
-        output['status']['testnet'] = "Healthy"
         if node_testnet_count <= 2:
             output['status']['testnet'] = "Severe"
             output['statusmsg']['testnet'] = f"{node_testnet_count} / 4 nodes is available"
