@@ -41,6 +41,7 @@ li {
 
 #status .subtitle {
     color: currentColor !important;
+    margin-bottom: 0.25rem;
 }
 
 .notification.is-success {

@@ -125,9 +125,13 @@ const Home = ({
 								style={{ marginTop: '1.5rem' }}
 							>
 								<Heading>{`${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${checkRelevanceData() ? data.status[activeNet] : 'Unknown'}`}</Heading>
-								{data.statusmsg && ((activeNet === 'mainnet' && data.statusmsg[activeNet]) || (activeNet === 'testnet' && data.statusmsg[activeNet])) && (
-									<Heading subtitle size={6}>{data.statusmsg[activeNet]}</Heading>
-								)}
+								{data.statusmsgs && data.statusmsgs[activeNet] && data.statusmsgs[activeNet].map((statusMsgItem) => (
+									<Heading
+										key={statusMsgItem}
+										subtitle
+										size={6}
+									>{`- ${statusMsgItem}`}</Heading>
+								))}
 							</Tile>
 							<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
 								<Tile kind="parent">
