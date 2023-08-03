@@ -41,11 +41,11 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
 
     if block_count - 1 - epoch_duration - 10 > last_epoch_block:
         output['status'][net] = 'Degraded'
-        output['statusmsg'][net] = f"Epoch is not updated for {block_count - 1 - last_epoch_block} block(s) (normal duration: {epoch_duration})"
+        output['statusmsgs'][net].append(f"Epoch is not updated for {block_count - 1 - last_epoch_block} block(s) (normal duration: {epoch_duration})")
 
     if block_timestamp + (5 * 60000) < int(time.time()) * 1000:
         output['status'][net] = 'Degraded'
-        output['statusmsg'][net] = "No new blocks for more than 5m"
+        output['statusmsgs'][net].append("No new blocks for more than 5m")
 
 
 async def main():
@@ -59,7 +59,10 @@ async def main():
             "mainnet": "Unknown",
             "testnet": "Unknown",
         },
-        "statusmsg": {},
+        "statusmsgs": {
+            "mainnet": [],
+            "testnet": [],
+        },
         "network_epoch": {
             "mainnet": "unknown",
             "testnet": "unknown",
@@ -179,22 +182,26 @@ async def main():
 
         if node_mainnet_count <= 3:
             output['status']['mainnet'] = "Severe"
-            output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
         elif node_mainnet_count <= 4:
             output['status']['mainnet'] = "Degraded"
-            output['statusmsg']['mainnet'] = f"{node_mainnet_count} / 5 nodes is available"
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
 
         if node_testnet_count <= 2:
             output['status']['testnet'] = "Severe"
-            output['statusmsg']['testnet'] = f"{node_testnet_count} / 4 nodes is available"
+            output['statusmsgs']['testnet'].append(f"{node_testnet_count} / 4 nodes is available")
         elif node_testnet_count <= 3:
             output['status']['testnet'] = "Degraded"
-            output['statusmsg']['testnet'] = f"{node_testnet_count} / 4 nodes is available"
+            output['statusmsgs']['testnet'].append(f"{node_testnet_count} / 4 nodes is available")
     except:
         # Connection error
         output['status'] = {
             "mainnet": "Unknown",
             "testnet": "Unknown",
+        }
+        output['statusmsgs'] = {
+            "mainnet": [],
+            "testnet": [],
         }
 
     with (open(args.output, 'w') if args.output != '-' else sys.stdout) as handle:
