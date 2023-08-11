@@ -159,6 +159,14 @@ export const App = () => {
 							alt="youtube logo"
 						/>
 					</a>
+					<a href="https://neospcc.medium.com/" target="_blank" rel="noopener noreferrer">
+						<img
+							src="./img/socials/medium.svg"
+							width={30}
+							height={30}
+							alt="medium logo"
+						/>
+					</a>
 				</div>
 				<Heading
 					size={6}
