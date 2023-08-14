@@ -39,3 +39,7 @@ python3 get_webstat_metrics.py
 Parameters:
 - `--server` - server api path (required)
 - `--output` - output dir with the file name and extension (by default, stdout)
+
+# License
+
+- [GNU General Public License v3.0](LICENSE)
