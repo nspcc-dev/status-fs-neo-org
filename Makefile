@@ -2,7 +2,7 @@
 
 SHELL = bash
 
-VERSION ?= $(shell git rev-parse --short=8 HEAD)
+VERSION ?= "$(shell git describe --tags --match "v*" --abbrev=8 2>/dev/null | sed -r 's,^v([0-9]+\.[0-9]+)\.([0-9]+)(-.*)?$$,\1 \2 \3,' | while read mm patch suffix; do if [ -z "$$suffix" ]; then echo $$mm.$$patch; else patch=`expr $$patch + 1`; echo $$mm.$${patch}-pre$$suffix; fi; done)"
 SITE_DIR ?= status.fs.neo.org
 RELEASE_DIR ?= $(SITE_DIR)-$(VERSION)
 RELEASE_PATH ?= $(SITE_DIR)-$(VERSION).tar.gz
@@ -18,7 +18,7 @@ $(SITE_DIR):
 	-v $$(pwd)/$(SITE_DIR):/usr/src/app/$(SITE_DIR) \
 	-e CURRENT_UID=$(CURRENT_UID) \
 	-w /usr/src/app node:12-alpine \
-	sh -c 'npm install && npm run build && chown -R $$CURRENT_UID: $(SITE_DIR)'
+	sh -c 'npm install && REACT_APP_VERSION=$(VERSION) npm run build && chown -R $$CURRENT_UID: $(SITE_DIR)'
 
 start:
 	docker run \
