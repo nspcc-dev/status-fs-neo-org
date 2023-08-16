@@ -80,7 +80,7 @@ export const App = () => {
 					</Navbar.Menu>
 				)}
 			</Navbar>
-			<main style={{ minHeight: 'calc(100vh - 212px)' }}>
+			<main style={{ minHeight: 'calc(100vh - 231.8px)' }}>
 				<Routes>
 					<Route
 						path="/"
@@ -173,8 +173,17 @@ export const App = () => {
 					weight="light"
 					subtitle
 					align="center"
+					style={{ marginBottom: '0.3rem' }}
 				>
 					NeoFS status monitoring page
+				</Heading>
+				<Heading
+					size={7}
+					weight="light"
+					subtitle
+					align="center"
+				>
+					{process.env.REACT_APP_VERSION}
 				</Heading>
 			</Footer>
     </>
