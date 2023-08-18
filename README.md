@@ -28,5 +28,6 @@ pip3 install requests
 python3 get_webstat_metrics.py
 ```
 Parameters:
-- `--server` - server api path (required)
+- `--url-main` - mainnet metrics url (default 'http://localhost:16512/metrics')
+- `--url-test` - testnet metrics url (default 'http://localhost:16513/metrics')
 - `--output` - output dir with the file name and extension (by default, stdout)

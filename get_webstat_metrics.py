@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-from neo3.core import types
-from neo3.api.helpers import unwrap
-from neo3.api.wrappers import ChainFacade, GenericContract
+
+import time
+import sys
+import argparse
 import asyncio
 import requests
 import json
-import time
-import argparse
-import sys
+
+from neo3.core import types
+from neo3.api.helpers import unwrap
+from neo3.api.wrappers import ChainFacade, GenericContract
+
+from prometheus_client.parser import text_string_to_metric_families
 
 
 NETMAP_HASH_MAINNET = '0x7c5bdb23e36cc7cce95bf42f3ab9e452c2501df1'
@@ -50,7 +54,8 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--server", type=str, required=True)
+    parser.add_argument("--url-main", type=str, default='http://localhost:16512/metrics')
+    parser.add_argument("--url-test", type=str, default='http://localhost:16513/metrics')
     parser.add_argument("--output", type=str, default='-')
     args = parser.parse_args()
 
@@ -126,52 +131,33 @@ async def main():
             ],
         },
     }
-    
+
     try:
-        response_epoch = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_epoch").json()
-        for epoch in response_epoch['data']['result']:
-            if epoch['metric']['net'] == 'main':
-                output['network_epoch']['mainnet'] = epoch['value'][1]
-            if epoch['metric']['net'] == 'test':
-                output['network_epoch']['testnet'] = epoch['value'][1]
-
-        response_containers = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_containers_number").json()
-        for container in response_containers['data']['result']:
-            if container['metric']['net'] == 'main':
-                output['containers']['mainnet'] = container['value'][1]
-            if container['metric']['net'] == 'test':
-                output['containers']['testnet'] = container['value'][1]
-
-        response_map = requests.get(f"{args.server}/api/v1/query?query=neofs_net_monitor_netmap").json()
         map_node = []
         node_mainnet_count = 0
         node_testnet_count = 0
-        for node in response_map['data']['result']:
-            if node['metric']['net'] == 'main':
-                node_mainnet_count += int(node['value'][1])
-            elif node['metric']['net'] == 'test':
-                node_testnet_count += int(node['value'][1])
 
-            is_exist = False
-            for map_node_item in map_node:
-                if map_node_item['location'] == node['metric']['location']:
-                    is_exist = True
-                    map_node_item['nodes'].append({
-                        "value": node['value'][1],
-                        "net": node['metric']['net'],
-                    })
-                    break
+        for family in text_string_to_metric_families(requests.get(args.url_main).content.decode('utf-8')):
+            if family.name == 'neofs_net_monitor_epoch':
+                output['network_epoch']['mainnet'] = family.samples[0].value
+            if family.name == 'neofs_net_monitor_containers_number':
+                output['containers']['mainnet'] = family.samples[0].value
+            if family.name == 'neofs_net_monitor_netmap':
+                for sample in family.samples:
+                    node_mainnet_count += sample.value
+                    sample.labels['nodes']=[{'net': 'main', 'value': sample.value }]
+                    map_node.append( sample.labels )
 
-            if not is_exist:
-                map_node.append({
-                    "latitude": node['metric']['latitude'],
-                    "location": node['metric']['location'],
-                    "longitude": node['metric']['longitude'],
-                    "nodes": [{
-                        "value": node['value'][1],
-                        "net": node['metric']['net'],
-                    }],
-                })
+        for family in text_string_to_metric_families(requests.get(args.url_test).content.decode('utf-8')):
+            if family.name == 'neofs_net_monitor_epoch':
+                output['network_epoch']['testnet'] = family.samples[0].value
+            if family.name == 'neofs_net_monitor_containers_number':
+                output['containers']['testnet'] = family.samples[0].value
+            if family.name == 'neofs_net_monitor_netmap':
+                for sample in family.samples:
+                    node_testnet_count += sample.value
+                    sample.labels['nodes']=[{'net': 'test', 'value': sample.value }]
+                    map_node.append( sample.labels )
 
         output['node_map'] = map_node
 
