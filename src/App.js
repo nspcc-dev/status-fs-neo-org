@@ -126,7 +126,7 @@ export const App = () => {
 						/>
 					</a>
 					<span class="social_pipe">
-						<a href="https://nspcc.ru/en" target="_blank" rel="noopener noreferrer">
+						<a href="https://nspcc.io/" target="_blank" rel="noopener noreferrer">
 							<img
 								src="./img/socials/neo_spcc.svg"
 								width={37}
