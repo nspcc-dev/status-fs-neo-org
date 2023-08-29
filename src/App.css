@@ -217,6 +217,10 @@ a.navbar-item:hover {
     .socials a {
         filter: invert(1);
     }
+
+    .social_pipe {
+        border-color: #fff;
+    }
 }
 
 @media (min-width: 1025px) {
