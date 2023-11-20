@@ -23,6 +23,13 @@ li {
     animation: pulse 1.5s infinite linear;
 }
 
+.info_caption {
+    font-size: 0.9rem;
+    border-left: 2px solid #f14668;
+    padding-left: 10px;
+    margin-bottom: 1.5rem;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(0.5);

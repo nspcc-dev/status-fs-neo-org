@@ -88,6 +88,14 @@ async def main():
                 "script_hash": "3c3f4b84773ef0141576e48c3ff60e5078235891",
             }
         },
+        "gateways": {
+            "mainnet": [
+                ["https://http.fs.neo.org", "https://rest.fs.neo.org/v1"],
+            ],
+            "testnet": [
+                ["https://http.t5.fs.neo.org", "https://rest.t5.fs.neo.org/v1"],
+            ],
+        },
         "side_chain_rpc_nodes": {
             "mainnet": [
                 ["https://rpc1.morph.fs.neo.org:40341", "wss://rpc1.morph.fs.neo.org:40341/ws"],
