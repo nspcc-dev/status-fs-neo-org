@@ -177,6 +177,51 @@ const Home = ({
 										renderAs={Notification}
 										color="grey"
 									>
+										<Heading subtitle weight="semibold">Test gateways</Heading>
+										<div className="info_caption">
+											<p>These are public gateways that MUST NOT be used for production applications, but they can be used for test purposes.</p>
+											<p>They're a centralization point and they're not guaranteed to always be available.</p>
+										</div>
+										<Table.Container>
+											<Table>
+												<thead>
+													<tr>
+														<th>
+															<abbr>
+																HTTP
+															</abbr>
+														</th>
+														<th>
+															<abbr>
+																REST
+															</abbr>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													{data.gateways && data.gateways[activeNet].map((node) => (
+														<tr key={node[0]}>
+															<td>
+																{node[0]}
+															</td>
+															<td>
+																{node[1]}
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</Table>
+										</Table.Container>
+									</Tile>
+								</Tile>
+							</Tile>
+							<Tile kind="ancestor">
+								<Tile kind="parent">
+									<Tile
+										kind="child"
+										renderAs={Notification}
+										color="grey"
+									>
 										<Heading subtitle weight="semibold">Storage nodes</Heading>
 										<Table.Container>
 											<Table>
