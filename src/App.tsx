@@ -1,22 +1,80 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
-import 'bulma/css/bulma.min.css';
 import {
 	Navbar,
 	Heading,
 	Footer,
 } from 'react-bulma-components';
-import Home from './Home';
-import NotFound from './NotFound';
+import Home from './Home.tsx';
+import NotFound from './NotFound.tsx';
+import 'bulma/css/bulma.min.css';
 import './App.css';
 
+export interface Data {
+	"status": {
+		"mainnet": string
+		"testnet": string
+	}
+	"statusmsgs": {
+		"mainnet": string[]
+		"testnet": string[]
+	}
+	"network_epoch": {
+		"mainnet": number | string
+		"testnet": number | string
+	}
+	"containers": {
+		"mainnet": number | string
+		"testnet": number | string
+	}
+	"time": number
+	"gateways": {
+		"mainnet": string[][]
+		"testnet": string[][]
+	}
+	"node_map": NodeMap[]
+	"contract": {
+		"mainnet": {
+			"address": string
+			"script_hash": string
+		}
+		"testnet": {
+			"address": string
+			"script_hash": string
+		}
+	}
+	"side_chain_rpc_nodes": {
+		"mainnet": string[][]
+		"testnet": string[][]
+	}
+	"storage_nodes": {
+		"mainnet": string[][]
+		"testnet": string[][]
+	}
+	"neo_go_rpc_nodes": {
+		"mainnet": string[][]
+		"testnet": string[][]
+	}
+}
+
+export interface NodeMap {
+	"latitude": string
+	"location": string
+	"longitude": string
+	"nodes": Node[]
+}
+
+export interface Node {
+	"net": string
+	"value": number
+}
 
 export const App = () => {
-	const location = useLocation();
-	const [isError, setError] = useState(false);
-	const [isLoading, setLoading] = useState(true);
-	const [menuActive, setMenuActive] = useState(false);
-	const [data, setData] = useState();
+	const location: any = useLocation();
+	const [isError, setError] = useState<boolean>(false);
+	const [isLoading, setLoading] = useState<boolean>(true);
+	const [menuActive, setMenuActive] = useState<boolean>(false);
+	const [data, setData] = useState<Data>();
 
   useEffect(() => {
 		try {
@@ -25,7 +83,7 @@ export const App = () => {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
 				}
-			}).then((response) => response.json()).then((myJson) => {
+			}).then((response) => response.json()).then((myJson: Data) => {
 				setLoading(false);
 				setData(myJson);
 			}).catch(() => {
@@ -172,16 +230,14 @@ export const App = () => {
 					size={6}
 					weight="light"
 					subtitle
-					align="center"
-					style={{ marginBottom: '0.3rem' }}
+					style={{ marginBottom: '0.3rem', textAlign: 'center' }}
 				>
 					NeoFS status monitoring page
 				</Heading>
 				<Heading
-					size={7}
 					weight="light"
 					subtitle
-					align="center"
+					style={{ textAlign: 'center', fontSize: '.75rem' }}
 				>
 					{process.env.REACT_APP_VERSION}
 				</Heading>
