@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
 	Container,
 	Table,
@@ -7,7 +7,42 @@ import {
 	Tile,
 	Notification,
 } from 'react-bulma-components';
+import { NodeMap, Node } from './App.tsx';
 import worldData from './world_data.json';
+
+declare global {
+  interface Window {
+    d3:any
+    topojson:any
+  }
+}
+
+interface WorldData {
+  type: string
+  transform: {
+		scale: number[]
+  	translate: number[]
+	}
+  objects: {
+		countries: {
+			type: string
+			geometries: Geometry[]
+			bbox: number[]
+		}
+	}
+  arcs: number[][][]
+  bbox: number[]
+}
+
+interface Geometry {
+  type?: string
+  arcs?: any[][]
+  id: number
+  properties: {
+		name: string
+		color: string
+	}
+}
 
 const Home = ({
 	activeNet,
@@ -17,81 +52,82 @@ const Home = ({
 	data,
 }) => {
 	useEffect(() => {
-		if (document.getElementById('mapcontainer')) {
-			onInitMap(activeNet);
+		const mapcontainer: HTMLElement | null = document.getElementById('mapcontainer');
+		if (mapcontainer) {
+			onInitMap(activeNet, mapcontainer);
 		}
 	},[data, location]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const onInitMap = (activeNet) => {
-    const width = document.getElementById('mapcontainer').offsetWidth;
-		const height = width / 1.5;
+	const onInitMap = (activeNet: string, mapcontainer: HTMLElement) => {
+    const width: number = mapcontainer.offsetWidth;
+		const height: number = width / 1.5;
 
-		document.getElementById('mapcontainer').innerHTML = '';
+		mapcontainer.innerHTML = '';
 
-		const projection = window.d3
+		const projection: any = window.d3
 			.geo
 			.mercator()
 			.translate([(width / 2), (height / 1.4)])
 			.scale(width / 2 / Math.PI);
-		const path = window.d3
+		const path: any = window.d3
 			.geo
 			.path()
 			.projection(projection);
-		const svg = window.d3
+		const svg: any = window.d3
 			.select("#mapcontainer")
 			.append("svg")
 			.attr("width", width)
 			.attr("height", height + 8)
 			.append("g");
-		const g = svg
+		const g: any = svg
 			.append("g");
 
-		const net = activeNet === 'mainnet' ? 'main' : 'test';
-		const world = JSON.parse(worldData.content);
-		const countries = window.topojson.feature(world, world.objects.countries).features;
-		const country = g.selectAll(".country").data(countries);
+		const net: string = activeNet === 'mainnet' ? 'main' : 'test';
+		const world: WorldData = JSON.parse(worldData.content);
+		const countries: any = window.topojson.feature(world, world.objects.countries).features;
+		const country: any = g.selectAll(".country").data(countries);
 		country
 			.enter()
 			.insert("path")
 			.attr("class", "country")
 			.attr("d", path)
-			.attr("id", (d) => d.id)
+			.attr("id", (d: any) => d.id)
 			.style("fill", '#49cc90');
 
-			const tip = window.d3
-				.select("body")
-				.append("div");
-			g.selectAll("circle")
-				.data(data.node_map.filter(item => item.nodes.map((node) => node.net).indexOf(net) !== -1))
-				.enter()
-				.append("circle")
-				.attr("class", "mapcircle")
-				.attr("cx", (d) => projection([d.longitude, d.latitude])[0])
-				.attr("cy", (d) => projection([d.longitude, d.latitude])[1])
-				.attr("r", "7")
-				.on("mouseover", (d) => {
-					const circ = window.d3.select(this);
-					circ.attr("class", "mouseover mapcircle");
-					tip.html(`
-						<div class='title is-6' style='margin-bottom: 10px'>${d.location}</div>
-						<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item) => item.net === net)[0].value} node${d.nodes.filter((item) => item.net === net)[0].value > 1 ? 's' : ''}</div>
-					`);
-					tip.transition()
-						.attr("class", "tooltip")
-						.style("display", "block");
-					tip.style("left", window.d3.event.pageX + 5 + "px")
-						.style("top", window.d3.event.pageY - 25 + "px");
-				})
-				.on("mouseout", () => {
-					const circ=window.d3.select(this);
-					circ.attr("class", "mouseout mapcircle");
-					tip.transition()
-						.style("display", "none");
-				});
+		const tip: any = window.d3
+			.select("body")
+			.append("div");
+		g.selectAll("circle")
+			.data(data.node_map.filter((item: NodeMap) => item.nodes.map((node: Node) => node.net).indexOf(net) !== -1))
+			.enter()
+			.append("circle")
+			.attr("class", "mapcircle")
+			.attr("cx", (d: any) => projection([d.longitude, d.latitude])[0])
+			.attr("cy", (d: any) => projection([d.longitude, d.latitude])[1])
+			.attr("r", "7")
+			.on("mouseover", (d: NodeMap) => {
+				const circ: any = window.d3.select(this);
+				circ.attr("class", "mouseover mapcircle");
+				tip.html(`
+					<div class='title is-6' style='margin-bottom: 10px'>${d.location}</div>
+					<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item: Node) => item.net === net)[0].value} node${d.nodes.filter((item: Node) => item.net === net)[0].value > 1 ? 's' : ''}</div>
+				`);
+				tip.transition()
+					.attr("class", "tooltip")
+					.style("display", "block");
+				tip.style("left", window.d3.event.pageX + 5 + "px")
+					.style("top", window.d3.event.pageY - 25 + "px");
+			})
+			.on("mouseout", () => {
+				const circ: any = window.d3.select(this);
+				circ.attr("class", "mouseout mapcircle");
+				tip.transition()
+					.style("display", "none");
+			});
 	};
 
-  const getColorStatus = (status) => {
-		let color = 'success';
+  const getColorStatus = (status: string): string => {
+		let color: string = 'success';
 		if (status === 'Healthy') {
 			color = 'success';
 		} else if (status === 'Degraded') {
@@ -104,10 +140,10 @@ const Home = ({
     return color;
 	};
 
-	function checkRelevanceData() {
-		const currentTimestamp = new Date().getTime();
-		const dataTimeMs = data.time * 1000;
-		const timeRelevance = 2 * 300000; // new data generate each 300000 ms, check for double missing data time
+	function checkRelevanceData(): boolean {
+		const currentTimestamp: number = new Date().getTime();
+		const dataTimeMs: number = data.time * 1000;
+		const timeRelevance: number = 2 * 300000; // new data generate each 300000 ms, check for double missing data time
     return currentTimestamp - dataTimeMs < timeRelevance;
 	};
 
@@ -125,7 +161,7 @@ const Home = ({
 								style={{ marginTop: '1.5rem' }}
 							>
 								<Heading>{`${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${checkRelevanceData() ? data.status[activeNet] : 'Unknown'}`}</Heading>
-								{data.statusmsgs && data.statusmsgs[activeNet] && data.statusmsgs[activeNet].map((statusMsgItem) => (
+								{data.statusmsgs && data.statusmsgs[activeNet] && data.statusmsgs[activeNet].map((statusMsgItem: string) => (
 									<Heading
 										key={statusMsgItem}
 										subtitle
@@ -199,7 +235,7 @@ const Home = ({
 													</tr>
 												</thead>
 												<tbody>
-													{data.gateways && data.gateways[activeNet].map((node) => (
+													{data.gateways && data.gateways[activeNet].map((node: string[]) => (
 														<tr key={node[0]}>
 															<td>
 																{node[0]}
@@ -240,7 +276,7 @@ const Home = ({
 													</tr>
 												</thead>
 												<tbody>
-													{data.storage_nodes && data.storage_nodes[activeNet].map((node) => (
+													{data.storage_nodes && data.storage_nodes[activeNet].map((node: string[]) => (
 														<tr key={node[0]}>
 															<td>
 																{node[0]}
@@ -281,7 +317,7 @@ const Home = ({
 													</tr>
 												</thead>
 												<tbody>
-													{data.neo_go_rpc_nodes && data.neo_go_rpc_nodes[activeNet].map((node) => (
+													{data.neo_go_rpc_nodes && data.neo_go_rpc_nodes[activeNet].map((node: string[]) => (
 														<tr key={node[0]}>
 															<td>
 																{node[0]}
@@ -322,7 +358,7 @@ const Home = ({
 													</tr>
 												</thead>
 												<tbody>
-													{data.side_chain_rpc_nodes && data.side_chain_rpc_nodes[activeNet].map((node) => (
+													{data.side_chain_rpc_nodes && data.side_chain_rpc_nodes[activeNet].map((node: string[]) => (
 														<tr key={node[0]}>
 															<td>
 																{node[0]}
@@ -348,7 +384,7 @@ const Home = ({
 										<Heading subtitle weight="semibold">Storage node map</Heading>
 										<Heading subtitle size={6}>
 											{`Nodes: `}
-											<span>{data.node_map && data.node_map.map((item) => item.nodes).flat().reduce((prev, cur) => cur.net === (activeNet === 'mainnet' ? 'main' : 'test') ? prev + Number(cur.value) : prev, 0)}</span>
+											<span>{data.node_map && data.node_map.map((item: NodeMap) => item.nodes).flat().reduce((prev: number, cur: Node) => cur.net === (activeNet === 'mainnet' ? 'main' : 'test') ? prev + cur.value : prev, 0)}</span>
 										</Heading>
 										<div id="mapcontainer" />
 									</Tile>
@@ -362,8 +398,8 @@ const Home = ({
 								renderAs={Notification}
 								color={"gray"}
 							>
-								<Heading weight="semibold" subtitle align="center">Something went wrong</Heading>
-								<Heading weight="light" subtitle align="center">Contact us at <a href="mailto:info@nspcc.ru" style={{ textDecoration: 'underline' }}>info@nspcc.ru</a></Heading>
+								<Heading weight="semibold" subtitle style={{ textAlign: 'center' }}>Something went wrong</Heading>
+								<Heading weight="light" subtitle style={{ textAlign: 'center' }}>Contact us at <a href="mailto:info@nspcc.ru" style={{ textDecoration: 'underline' }}>info@nspcc.ru</a></Heading>
 							</Tile>
 						</Section>
 					)}
