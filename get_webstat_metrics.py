@@ -90,10 +90,10 @@ async def main():
         },
         "gateways": {
             "mainnet": [
-                ["https://http.fs.neo.org", "https://rest.fs.neo.org/v1"],
+                ["https://http.fs.neo.org", "https://rest.fs.neo.org/"],
             ],
             "testnet": [
-                ["https://http.t5.fs.neo.org", "https://rest.t5.fs.neo.org/v1"],
+                ["https://http.t5.fs.neo.org", "https://rest.t5.fs.neo.org/"],
             ],
         },
         "side_chain_rpc_nodes": {
