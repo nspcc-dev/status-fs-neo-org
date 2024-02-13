@@ -54,8 +54,8 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url-main", type=str, default='http://localhost:16512/metrics')
-    parser.add_argument("--url-test", type=str, default='http://localhost:16513/metrics')
+    parser.add_argument("--url-main", type=str, default='http://localhost:16513/metrics')
+    parser.add_argument("--url-test", type=str, default='http://localhost:16515/metrics')
     parser.add_argument("--output", type=str, default='-')
     args = parser.parse_args()
 
