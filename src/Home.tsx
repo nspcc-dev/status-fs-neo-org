@@ -213,20 +213,15 @@ const Home = ({
 										renderAs={Notification}
 										color="grey"
 									>
-										<Heading subtitle weight="semibold">Test gateways</Heading>
+										<Heading subtitle weight="semibold">Test gateway</Heading>
 										<div className="info_caption">
-											<p>These are public gateways that MUST NOT be used for production applications, but they can be used for test purposes.</p>
-											<p>They're a centralization point and they're not guaranteed to always be available.</p>
+											<p>This is a public gateway that MUST NOT be used for production applications, but it can be used for test purposes.</p>
+											<p>It's a centralization point and it's not guaranteed to always be available.</p>
 										</div>
 										<Table.Container>
 											<Table>
 												<thead>
 													<tr>
-														<th>
-															<abbr>
-																HTTP
-															</abbr>
-														</th>
 														<th>
 															<abbr>
 																REST
@@ -236,10 +231,7 @@ const Home = ({
 												</thead>
 												<tbody>
 													{data.gateways && data.gateways[activeNet].map((node: string[]) => (
-														<tr key={node[0]}>
-															<td>
-																{node[0]}
-															</td>
+														<tr key={node[1]}>
 															<td>
 																{node[1]}
 															</td>
