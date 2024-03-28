@@ -200,7 +200,7 @@ const Home = ({
 											{data.contract && data.contract[activeNet].address}
 										</Heading>
 										<Heading subtitle size={6}>
-											<span>{`Hash script: `}</span>
+											<span>{`Script hash: `}</span>
 											{data.contract && data.contract[activeNet].script_hash}
 										</Heading>
 									</Tile>
