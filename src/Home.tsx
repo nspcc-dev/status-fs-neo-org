@@ -201,7 +201,7 @@ const Home = ({
 										</Heading>
 										<Heading subtitle size={6}>
 											<span>{`Script hash: `}</span>
-											{data.contract && data.contract[activeNet].script_hash}
+											{`0x${data.contract && data.contract[activeNet].script_hash}`}
 										</Heading>
 									</Tile>
 								</Tile>
