@@ -140,10 +140,9 @@ async def main():
         },
     }
 
+    map_node = []
     try:
-        map_node = []
         node_mainnet_count = 0
-        node_testnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_main).content.decode('utf-8')):
             if family.name == 'neofs_net_monitor_epoch':
@@ -155,6 +154,25 @@ async def main():
                     node_mainnet_count += sample.value
                     sample.labels['nodes']=[{'net': 'main', 'value': sample.value }]
                     map_node.append( sample.labels )
+
+        output['node_map'] = map_node
+
+        output['status']['mainnet'] = "Healthy"
+        await check_epoch(output, 'mainnet', output['side_chain_rpc_nodes']['mainnet'][4][0], NETMAP_HASH_MAINNET)
+
+        if node_mainnet_count <= 3:
+            output['status']['mainnet'] = "Severe"
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
+        elif node_mainnet_count <= 4:
+            output['status']['mainnet'] = "Degraded"
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
+    except:
+        # Connection error
+        output['status']['mainnet'] = "Unknown"
+        output['statusmsgs']['mainnet'] = ["Unable to retrieve data (neo-exporter and/or RPC failure)"]
+
+    try:
+        node_testnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_test).content.decode('utf-8')):
             if family.name == 'neofs_net_monitor_epoch':
@@ -169,17 +187,8 @@ async def main():
 
         output['node_map'] = map_node
 
-        output['status']['mainnet'] = "Healthy"
         output['status']['testnet'] = "Healthy"
-        await check_epoch(output, 'mainnet', output['side_chain_rpc_nodes']['mainnet'][4][0], NETMAP_HASH_MAINNET)
         await check_epoch(output, 'testnet', output['side_chain_rpc_nodes']['testnet'][2][0], NETMAP_HASH_TESTNET)
-
-        if node_mainnet_count <= 3:
-            output['status']['mainnet'] = "Severe"
-            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
-        elif node_mainnet_count <= 4:
-            output['status']['mainnet'] = "Degraded"
-            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
 
         if node_testnet_count <= 2:
             output['status']['testnet'] = "Severe"
@@ -189,14 +198,8 @@ async def main():
             output['statusmsgs']['testnet'].append(f"{node_testnet_count} / 4 nodes is available")
     except:
         # Connection error
-        output['status'] = {
-            "mainnet": "Unknown",
-            "testnet": "Unknown",
-        }
-        output['statusmsgs'] = {
-            "mainnet": [],
-            "testnet": [],
-        }
+        output['status']['testnet'] = "Unknown"
+        output['statusmsgs']['testnet'] = ["Unable to retrieve data (neo-exporter and/or RPC failure)"]
 
     with (open(args.output, 'w') if args.output != '-' else sys.stdout) as handle:
         handle.write(json.dumps(output, separators=(',', ':')))
