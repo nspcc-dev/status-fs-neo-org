@@ -145,11 +145,11 @@ async def main():
         node_mainnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_main).content.decode('utf-8')):
-            if family.name == 'neofs_net_monitor_epoch':
+            if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['mainnet'] = family.samples[0].value
-            if family.name == 'neofs_net_monitor_containers_number':
+            if family.name == 'neo_exporter_containers_number':
                 output['containers']['mainnet'] = family.samples[0].value
-            if family.name == 'neofs_net_monitor_netmap':
+            if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
                     node_mainnet_count += sample.value
                     sample.labels['nodes']=[{'net': 'main', 'value': sample.value }]
@@ -175,11 +175,11 @@ async def main():
         node_testnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_test).content.decode('utf-8')):
-            if family.name == 'neofs_net_monitor_epoch':
+            if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['testnet'] = family.samples[0].value
-            if family.name == 'neofs_net_monitor_containers_number':
+            if family.name == 'neo_exporter_containers_number':
                 output['containers']['testnet'] = family.samples[0].value
-            if family.name == 'neofs_net_monitor_netmap':
+            if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
                     node_testnet_count += sample.value
                     sample.labels['nodes']=[{'net': 'test', 'value': sample.value }]
