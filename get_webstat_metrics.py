@@ -98,22 +98,22 @@ async def main():
         },
         "side_chain_rpc_nodes": {
             "mainnet": [
-                ["https://rpc1.morph.fs.neo.org:40341", "wss://rpc1.morph.fs.neo.org:40341/ws"],
-                ["https://rpc2.morph.fs.neo.org:40341", "wss://rpc2.morph.fs.neo.org:40341/ws"],
-                ["https://rpc3.morph.fs.neo.org:40341", "wss://rpc3.morph.fs.neo.org:40341/ws"],
-                ["https://rpc4.morph.fs.neo.org:40341", "wss://rpc4.morph.fs.neo.org:40341/ws"],
-                ["https://rpc5.morph.fs.neo.org:40341", "wss://rpc5.morph.fs.neo.org:40341/ws"],
-                ["https://rpc6.morph.fs.neo.org:40341", "wss://rpc6.morph.fs.neo.org:40341/ws"],
-                ["https://rpc7.morph.fs.neo.org:40341", "wss://rpc7.morph.fs.neo.org:40341/ws"],
+                ["https://rpc1.morph.fs.neo.org", "wss://rpc1.morph.fs.neo.org/ws"],
+                ["https://rpc2.morph.fs.neo.org", "wss://rpc2.morph.fs.neo.org/ws"],
+                ["https://rpc3.morph.fs.neo.org", "wss://rpc3.morph.fs.neo.org/ws"],
+                ["https://rpc4.morph.fs.neo.org", "wss://rpc4.morph.fs.neo.org/ws"],
+                ["https://rpc5.morph.fs.neo.org", "wss://rpc5.morph.fs.neo.org/ws"],
+                ["https://rpc6.morph.fs.neo.org", "wss://rpc6.morph.fs.neo.org/ws"],
+                ["https://rpc7.morph.fs.neo.org", "wss://rpc7.morph.fs.neo.org/ws"],
             ],
             "testnet": [
-                ["https://rpc1.morph.t5.fs.neo.org:51331", "wss://rpc1.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc2.morph.t5.fs.neo.org:51331", "wss://rpc2.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc3.morph.t5.fs.neo.org:51331", "wss://rpc3.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc4.morph.t5.fs.neo.org:51331", "wss://rpc4.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc5.morph.t5.fs.neo.org:51331", "wss://rpc5.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc6.morph.t5.fs.neo.org:51331", "wss://rpc6.morph.t5.fs.neo.org:51331/ws"],
-                ["https://rpc7.morph.t5.fs.neo.org:51331", "wss://rpc7.morph.t5.fs.neo.org:51331/ws"],
+                ["https://rpc1.morph.t5.fs.neo.org", "wss://rpc1.morph.t5.fs.neo.org/ws"],
+                ["https://rpc2.morph.t5.fs.neo.org", "wss://rpc2.morph.t5.fs.neo.org/ws"],
+                ["https://rpc3.morph.t5.fs.neo.org", "wss://rpc3.morph.t5.fs.neo.org/ws"],
+                ["https://rpc4.morph.t5.fs.neo.org", "wss://rpc4.morph.t5.fs.neo.org/ws"],
+                ["https://rpc5.morph.t5.fs.neo.org", "wss://rpc5.morph.t5.fs.neo.org/ws"],
+                ["https://rpc6.morph.t5.fs.neo.org", "wss://rpc6.morph.t5.fs.neo.org/ws"],
+                ["https://rpc7.morph.t5.fs.neo.org", "wss://rpc7.morph.t5.fs.neo.org/ws"],
             ],
         },
         "storage_nodes": {
@@ -132,10 +132,10 @@ async def main():
         },
         "neo_go_rpc_nodes": {
             "mainnet": [
-                ["https://rpc10.n3.nspcc.ru:10331", "wss://rpc10.n3.nspcc.ru:10331/ws"],
+                ["https://rpc10.n3.nspcc.ru", "wss://rpc10.n3.nspcc.ru/ws"],
             ],
             "testnet": [
-                ["https://rpc.t5.n3.nspcc.ru:20331", "wss://rpc.t5.n3.nspcc.ru:20331/ws"],
+                ["https://rpc.t5.n3.nspcc.ru", "wss://rpc.t5.n3.nspcc.ru/ws"],
             ],
         },
     }
