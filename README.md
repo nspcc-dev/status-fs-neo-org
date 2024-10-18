@@ -30,9 +30,9 @@ NeoFS status monitoring page using React framework under the hood
 ## Getting started for getting metrics
 1. Create virtual environment
 ```
-python3 -m venv env
+virtualenv env
 source env/bin/activate
-pip3 install requests
+pip3 install -r requirements.txt
 ```
 2. Run python3
 ```
