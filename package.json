@@ -3,25 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@types/react": "^18.2.39",
-    "@types/react-dom": "^18.2.17",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "bulma": "^0.9.4",
-    "react": "^17.0.2",
+    "react": "^19.0.0",
     "react-bulma-components": "^4.1.0",
-    "react-dom": "^17.0.2",
+    "react-dom": "^19.0.0",
     "react-router-dom": "^6.10.0"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION=$(make version) GENERATE_SOURCEMAP=false react-scripts start",
-    "build": "BUILD_PATH='./status.fs.neo.org' GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "dev": "VITE_VERSION=$(make version) vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "browserslist": [
     ">0.2%",
@@ -29,7 +22,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-scripts": "^5.0.1",
-    "typescript": "^3.2.1"
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
   }
 }

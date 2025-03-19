@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { useEffect, useState } from 'react';
 import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import {
@@ -114,7 +115,7 @@ export const App = () => {
 					<Navbar.Menu
 						className={menuActive ? 'is-active' : ''}
 					>
-						<Navbar.Container>
+						<Navbar.Container className="navbar-start">
 							<Link
 								to="/"
 								className="navbar-item"
@@ -239,7 +240,7 @@ export const App = () => {
 					subtitle
 					style={{ textAlign: 'center', fontSize: '.75rem' }}
 				>
-					{process.env.REACT_APP_VERSION}
+					{import.meta.env.VITE_VERSION}
 				</Heading>
 			</Footer>
     </>
