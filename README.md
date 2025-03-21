@@ -19,7 +19,7 @@ NeoFS status monitoring page using React framework under the hood
 
 - make
 - docker
-- node.js
+- node (`18+`)
 - python
 
 ## Make instructions

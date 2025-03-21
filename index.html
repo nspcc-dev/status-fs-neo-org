@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NeoFS Status</title>
+    <meta charset='utf-8'>
+    <link rel="icon" href="/img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="NeoFS Status page">
+    <meta name="description" content="NeoFS status monitoring">
+    <meta property="og:url" content="https://status.fs.neo.org">
+    <meta property="og:title" content="NeoFS Status page">
+    <meta property="og:description" content="NeoFS status monitoring">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#2d333b" />
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; connect-src 'self' https://status.fs.neo.org; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; form-action 'self';  base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #111827;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script src="/js/d3.v3.min.js"></script>
+    <script src="/js/d3.geo.projection.v0.min.js"></script>
+    <script src="/js/topojson.v1.min.js"></script>
+  </body>
+</html>
