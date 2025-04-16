@@ -151,8 +151,8 @@ async def main():
                 output['containers']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
-                    node_mainnet_count += sample.value
-                    sample.labels['nodes']=[{'net': 'main', 'value': sample.value }]
+                    node_mainnet_count += int(sample.value)
+                    sample.labels['nodes']=[{'net': 'main', 'value': int(sample.value) }]
                     map_node.append( sample.labels )
 
         output['node_map'] = map_node
@@ -162,10 +162,10 @@ async def main():
 
         if node_mainnet_count <= 3:
             output['status']['mainnet'] = "Severe"
-            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} out of 5 nodes {'is' if node_mainnet_count == 1 else 'are'} available")
         elif node_mainnet_count <= 4:
             output['status']['mainnet'] = "Degraded"
-            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} / 5 nodes is available")
+            output['statusmsgs']['mainnet'].append(f"{node_mainnet_count} out of 5 nodes {'is' if node_mainnet_count == 1 else 'are'} available")
     except:
         # Connection error
         output['status']['mainnet'] = "Unknown"
@@ -181,8 +181,8 @@ async def main():
                 output['containers']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
-                    node_testnet_count += sample.value
-                    sample.labels['nodes']=[{'net': 'test', 'value': sample.value }]
+                    node_testnet_count += int(sample.value)
+                    sample.labels['nodes']=[{'net': 'test', 'value': int(sample.value) }]
                     map_node.append( sample.labels )
 
         output['node_map'] = map_node
@@ -192,10 +192,10 @@ async def main():
 
         if node_testnet_count <= 2:
             output['status']['testnet'] = "Severe"
-            output['statusmsgs']['testnet'].append(f"{node_testnet_count} / 4 nodes is available")
+            output['statusmsgs']['testnet'].append(f"{node_testnet_count} out of 4 nodes {'is' if node_testnet_count == 1 else 'are'} available")
         elif node_testnet_count <= 3:
             output['status']['testnet'] = "Degraded"
-            output['statusmsgs']['testnet'].append(f"{node_testnet_count} / 4 nodes is available")
+            output['statusmsgs']['testnet'].append(f"{node_testnet_count} out of 4 nodes {'is' if node_testnet_count == 1 else 'are'} available")
     except:
         # Connection error
         output['status']['testnet'] = "Unknown"
