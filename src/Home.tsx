@@ -166,7 +166,7 @@ const Home = ({
 										key={statusMsgItem}
 										subtitle
 										size={6}
-									>{`- ${statusMsgItem}`}</Heading>
+									>{`• ${statusMsgItem}`}</Heading>
 								))}
 							</Tile>
 							<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
