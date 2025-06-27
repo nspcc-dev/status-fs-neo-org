@@ -27,6 +27,14 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
     })).json()
     block_count = response_getblockcount['result']
 
+    response_getblockheader = requests.post(rpc_host, data=json.dumps({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getblockheader",
+        "params": [block_count - 1, 1]
+    })).json()
+    last_block_timestamp = response_getblockheader['result']['time']
+
     facade = ChainFacade(rpc_host=rpc_host)
     contract_hash = types.UInt160.from_string(netmap_hash)
     contract = GenericContract(contract_hash)
@@ -39,15 +47,17 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
         "jsonrpc": "2.0",
         "id": 1,
         "method": "getblockheader",
-        "params": [block_count - 1, 1]
+        "params": [last_epoch_block, 1]
     })).json()
-    block_timestamp = response_getblockheader['result']['time']
+    last_epoch_timestamp = response_getblockheader['result']['time']
 
-    if block_count - 1 - epoch_duration - 10 > last_epoch_block:
+    now = int(time.time()) * 1000
+
+    if now - last_epoch_timestamp > epoch_duration * 1000 * (1 + 0.05):
         output['status'][net] = 'Degraded'
-        output['statusmsgs'][net].append(f"Epoch is not updated for {block_count - 1 - last_epoch_block} block(s) (normal duration: {epoch_duration})")
+        output['statusmsgs'][net].append(f"Epoch tick delayed by {(now - last_epoch_timestamp) // 1000}s (expected ~{epoch_duration}s ±5%)")
 
-    if block_timestamp + (5 * 60000) < int(time.time()) * 1000:
+    if last_block_timestamp + (5 * 60000) < now:
         output['status'][net] = 'Degraded'
         output['statusmsgs'][net].append("No new blocks for more than 5m")
 
