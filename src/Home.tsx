@@ -213,7 +213,7 @@ const Home = ({
 										renderAs={Notification}
 										color="grey"
 									>
-										<Heading subtitle weight="semibold">Test gateway</Heading>
+										<Heading subtitle weight="semibold">Gateways</Heading>
 										<div className="info_caption">
 											<p>This is a public gateway that MUST NOT be used for production applications, but it can be used for test purposes.</p>
 											<p>It's a centralization point and it's not guaranteed to always be available.</p>
