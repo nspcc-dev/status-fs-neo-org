@@ -28,6 +28,18 @@ export interface Data {
 		"mainnet": number | string
 		"testnet": number | string
 	}
+	"objects": {
+		"mainnet": number | string
+		"testnet": number | string
+	}
+	"containers_size": {
+		"mainnet": number | string
+		"testnet": number | string
+	}
+	"capacity": {
+		"mainnet": number | string
+		"testnet": number | string
+	}
 	"time": number
 	"gateways": {
 		"mainnet": string[][]

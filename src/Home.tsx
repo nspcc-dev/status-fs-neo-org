@@ -113,7 +113,7 @@ const Home = ({
 					<div>${activeNet === 'mainnet' ? 'Mainnet' : 'Testnet'}: ${d.nodes.filter((item: Node) => item.net === net)[0].value} node${d.nodes.filter((item: Node) => item.net === net)[0].value > 1 ? 's' : ''}</div>
 				`);
 				tip.transition()
-					.attr("class", "tooltip")
+					.attr("class", "map_tooltip")
 					.style("display", "block");
 				tip.style("left", window.d3.event.pageX + 5 + "px")
 					.style("top", window.d3.event.pageY - 25 + "px");
@@ -147,6 +147,21 @@ const Home = ({
     return currentTimestamp - dataTimeMs < timeRelevance;
 	};
 
+	function formatBytes(bytes: number): string {
+		const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+		if (bytes === undefined) return '';
+		let i = 0
+		for (i; bytes >= 1024; i += 1) {
+			if (i > 4) {
+				break;
+			}
+			bytes /= 1024;
+		}
+
+		return `${Number.isInteger(bytes) ? bytes : parseFloat(bytes.toFixed(2))} ${units[i]}`;
+	};
+
   return (
 		<Container>
 			{!isLoading ? (
@@ -169,7 +184,7 @@ const Home = ({
 									>{`• ${statusMsgItem}`}</Heading>
 								))}
 							</Tile>
-							<Tile kind="ancestor" style={{ marginTop: '1.5rem' }} id="main">
+							<Tile kind="ancestor" style={{ marginTop: '.75rem' }} id="main">
 								<Tile kind="parent">
 									<Tile
 										kind="child"
@@ -177,13 +192,85 @@ const Home = ({
 										color="grey"
 									>
 										<Heading subtitle size={6}>
-											{`Network epoch: `}
-											<span>{data.network_epoch && data.network_epoch[activeNet]}</span>
+											Network epoch
+											<div className="tooltip_block">
+												<img
+													className="tooltip_icon"
+													src="/img/icons/info_circle.svg"
+													height={18}
+													width={18}
+													alt="info"
+												/>
+												<div className="tooltip">Epoch number of NeoFS network</div>
+											</div>
 										</Heading>
+										<Heading subtitle weight="semibold">{data.network_epoch && data.network_epoch[activeNet].toLocaleString('ru-RU')}</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile
+										kind="child"
+										renderAs={Notification}
+										color="grey"
+									>
 										<Heading subtitle size={6}>
-											{`Containers: `}
-											<span>{data.containers && data.containers[activeNet]}</span>
+											Containers
+											<div className="tooltip_block">
+												<img
+													className="tooltip_icon"
+													src="/img/icons/info_circle.svg"
+													height={18}
+													width={18}
+													alt="info"
+												/>
+												<div className="tooltip">Number of registered containers</div>
+											</div>
 										</Heading>
+										<Heading subtitle weight="semibold">{data.containers && data.containers[activeNet].toLocaleString('ru-RU')}</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile
+										kind="child"
+										renderAs={Notification}
+										color="grey"
+									>
+										<Heading subtitle size={6}>
+											Objects
+											<div className="tooltip_block">
+												<img
+													className="tooltip_icon"
+													src="/img/icons/info_circle.svg"
+													height={18}
+													width={18}
+													alt="info"
+												/>
+												<div className="tooltip">Total number of stored objects (counting all replicas)</div>
+											</div>
+										</Heading>
+										<Heading subtitle weight="semibold">{data.containers && data.containers_objects[activeNet].toLocaleString('ru-RU')}</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile
+										kind="child"
+										renderAs={Notification}
+										color="grey"
+									>
+										<Heading subtitle size={6}>
+											Used capacity
+											<div className="tooltip_block">
+												<img
+													className="tooltip_icon"
+													src="/img/icons/info_circle.svg"
+													height={18}
+													width={18}
+													alt="info"
+												/>
+												<div className="tooltip">Sum of all payload sizes (counting all replicas) / Sum of all nodes capacity</div>
+											</div>
+										</Heading>
+										<Heading subtitle weight="semibold">{`${data.containers && formatBytes(data.containers_size[activeNet])} / ${data.containers && formatBytes(data.capacity[activeNet] * 1024 * 1024 * 1024)}`}</Heading>
 									</Tile>
 								</Tile>
 							</Tile>

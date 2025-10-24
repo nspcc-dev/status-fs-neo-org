@@ -86,6 +86,18 @@ async def main():
             "mainnet": "unknown",
             "testnet": "unknown",
         },
+        "objects": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
+        "containers_size": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
+        "capacity": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
         "time": time.time(),
         "node_map": [],
         "contract": {
@@ -159,6 +171,12 @@ async def main():
                 output['network_epoch']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['mainnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_containers_objects':
+                output['objects']['mainnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_containers_size':
+                output['containers_size']['mainnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_sn_capacity_total':
+                output['capacity']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
                     node_mainnet_count += int(sample.value)
@@ -189,6 +207,12 @@ async def main():
                 output['network_epoch']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['testnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_containers_objects':
+                output['objects']['testnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_containers_size':
+                output['containers_size']['testnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_sn_capacity_total':
+                output['capacity']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap':
                 for sample in family.samples:
                     node_testnet_count += int(sample.value)
