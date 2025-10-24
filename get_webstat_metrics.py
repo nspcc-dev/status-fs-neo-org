@@ -39,9 +39,9 @@ async def check_epoch(output, net, rpc_host, netmap_hash):
     contract_hash = types.UInt160.from_string(netmap_hash)
     contract = GenericContract(contract_hash)
     result = await facade.test_invoke(contract.call_function("lastEpochBlock"))
-    last_epoch_block = unwrap.as_int(result)
+    last_epoch_block = int(result.result.stack[0].value)
     result = await facade.test_invoke(contract.call_function("config", ['EpochDuration']))
-    epoch_duration = int.from_bytes(unwrap.as_bytes(result)[:2], "little")
+    epoch_duration = int.from_bytes(bytes(result.result.stack[0].value)[:2], "little")
 
     response_getblockheader = requests.post(rpc_host, data=json.dumps({
         "jsonrpc": "2.0",
