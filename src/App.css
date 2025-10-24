@@ -240,6 +240,24 @@ a.navbar-item:hover {
     }
 }
 
+@media (max-width: 1000px) {
+    #main {
+        margin-top: .5rem !important;
+        flex-wrap: wrap;
+        display: flex;
+    }
+
+    #main>.tile {
+        flex-basis: 50%;
+    }
+}
+
+@media (max-width: 550px) {
+    #main .tile .subtitle.has-text-weight-semibold {
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 500px) {
     .title {
         font-size: 20px;
@@ -251,5 +269,19 @@ a.navbar-item:hover {
 
     .notification {
         padding: 1rem;
+    }
+
+    #main {
+        padding: 0 0.5rem;
+    }
+
+    #main>.tile {
+        padding: .25rem;
+    }
+}
+
+@media (max-width: 400px) {
+    #main .tile .subtitle.has-text-weight-semibold {
+        font-size: 14px;
     }
 }
