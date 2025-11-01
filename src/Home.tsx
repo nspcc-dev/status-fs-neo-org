@@ -283,6 +283,11 @@ const Home = ({
 									>
 										<Heading subtitle weight="semibold">NeoFS contract</Heading>
 										<Heading subtitle size={6}>
+											<span>{`Balance: `}</span>
+
+											{`${data.contract && data.contract[activeNet].balance} GAS`}
+										</Heading>
+										<Heading subtitle size={6}>
 											<span>{`Address: `}</span>
 											{data.contract && data.contract[activeNet].address}
 										</Heading>
