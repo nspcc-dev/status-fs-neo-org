@@ -248,7 +248,7 @@ const Home = ({
 												<div className="tooltip">Total number of stored objects (counting all replicas)</div>
 											</div>
 										</Heading>
-										<Heading subtitle weight="semibold">{data.containers && data.containers_objects[activeNet].toLocaleString('ru-RU')}</Heading>
+										<Heading subtitle weight="semibold">{data.objects && data.objects[activeNet].toLocaleString('ru-RU')}</Heading>
 									</Tile>
 								</Tile>
 								<Tile kind="parent">
@@ -282,6 +282,11 @@ const Home = ({
 										color="grey"
 									>
 										<Heading subtitle weight="semibold">NeoFS contract</Heading>
+										<Heading subtitle size={6}>
+											<span>{`Balance: `}</span>
+
+											{`${data.contract && data.contract[activeNet].balance} GAS`}
+										</Heading>
 										<Heading subtitle size={6}>
 											<span>{`Address: `}</span>
 											{data.contract && data.contract[activeNet].address}

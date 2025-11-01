@@ -48,10 +48,12 @@ export interface Data {
 	"node_map": NodeMap[]
 	"contract": {
 		"mainnet": {
+			"balance": number | string
 			"address": string
 			"script_hash": string
 		}
 		"testnet": {
+			"balance": number | string
 			"address": string
 			"script_hash": string
 		}

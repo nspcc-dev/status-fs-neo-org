@@ -102,10 +102,12 @@ async def main():
         "node_map": [],
         "contract": {
             "mainnet": {
+                "balance": "unknown",
                 "address": "NNxVrKjLsRkWsmGgmuNXLcMswtxTGaNQLk",
                 "script_hash": "2cafa46838e8b564468ebd868dcafdd99dce6221",
             },
             "testnet": {
+                "balance": "unknown",
                 "address": "NZAUkYbJ1Cb2HrNmwZ1pg9xYHBhm2FgtKV",
                 "script_hash": "3c3f4b84773ef0141576e48c3ff60e5078235891",
             }
@@ -167,6 +169,8 @@ async def main():
         node_mainnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_main).content.decode('utf-8')):
+            if family.name == 'neo_exporter_fs_chain_supply':
+                output['contract']['mainnet']['balance'] = family.samples[0].value
             if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
@@ -203,6 +207,8 @@ async def main():
         node_testnet_count = 0
 
         for family in text_string_to_metric_families(requests.get(args.url_test).content.decode('utf-8')):
+            if family.name == 'neo_exporter_fs_chain_supply':
+                output['contract']['mainnet']['balance'] = family.samples[0].value
             if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
