@@ -248,7 +248,7 @@ const Home = ({
 												<div className="tooltip">Total number of stored objects (counting all replicas)</div>
 											</div>
 										</Heading>
-										<Heading subtitle weight="semibold">{data.containers && data.containers_objects[activeNet].toLocaleString('ru-RU')}</Heading>
+										<Heading subtitle weight="semibold">{data.objects && data.objects[activeNet].toLocaleString('ru-RU')}</Heading>
 									</Tile>
 								</Tile>
 								<Tile kind="parent">
