@@ -349,12 +349,12 @@ const Home = ({
 													<tr>
 														<th>
 															<abbr>
-																Secured(TLS) endpoint
+																Secure (TLS) gRPC
 															</abbr>
 														</th>
 														<th>
 															<abbr>
-																Insecure endpoint
+																Insecure endpoint (deprecated)
 															</abbr>
 														</th>
 													</tr>
@@ -366,7 +366,7 @@ const Home = ({
 																{node[0]}
 															</td>
 															<td>
-																{node[1]}
+																<s>{node[1]}</s>
 															</td>
 														</tr>
 													))}
