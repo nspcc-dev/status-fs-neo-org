@@ -142,16 +142,16 @@ async def main():
         },
         "storage_nodes": {
             "mainnet": [
-                ["grpcs://st1.storage.fs.neo.org:8082", "st1.storage.fs.neo.org:8080"],
-                ["grpcs://st2.storage.fs.neo.org:8082", "st2.storage.fs.neo.org:8080"],
-                ["grpcs://st3.storage.fs.neo.org:8082", "st3.storage.fs.neo.org:8080"],
-                ["grpcs://st4.storage.fs.neo.org:8082", "st4.storage.fs.neo.org:8080"],
+                "grpcs://st1.storage.fs.neo.org:8082",
+                "grpcs://st2.storage.fs.neo.org:8082",
+                "grpcs://st3.storage.fs.neo.org:8082",
+                "grpcs://st4.storage.fs.neo.org:8082",
             ],
             "testnet": [
-                ["grpcs://st1.t5.fs.neo.org:8082", "st1.t5.fs.neo.org:8080"],
-                ["grpcs://st2.t5.fs.neo.org:8082", "st2.t5.fs.neo.org:8080"],
-                ["grpcs://st3.t5.fs.neo.org:8082", "st3.t5.fs.neo.org:8080"],
-                ["grpcs://st4.t5.fs.neo.org:8082", "st4.t5.fs.neo.org:8080"],
+                "grpcs://st1.t5.fs.neo.org:8082",
+                "grpcs://st2.t5.fs.neo.org:8082",
+                "grpcs://st3.t5.fs.neo.org:8082",
+                "grpcs://st4.t5.fs.neo.org:8082",
             ],
         },
         "neo_go_rpc_nodes": {

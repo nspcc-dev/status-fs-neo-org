@@ -63,8 +63,8 @@ export interface Data {
 		"testnet": string[][]
 	}
 	"storage_nodes": {
-		"mainnet": string[][]
-		"testnet": string[][]
+		"mainnet": string[]
+		"testnet": string[]
 	}
 	"neo_go_rpc_nodes": {
 		"mainnet": string[][]
