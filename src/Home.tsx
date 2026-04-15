@@ -352,21 +352,13 @@ const Home = ({
 																Secure (TLS) gRPC
 															</abbr>
 														</th>
-														<th>
-															<abbr>
-																Insecure endpoint (deprecated)
-															</abbr>
-														</th>
 													</tr>
 												</thead>
 												<tbody>
-													{data.storage_nodes && data.storage_nodes[activeNet].map((node: string[]) => (
-														<tr key={node[0]}>
+													{data.storage_nodes && data.storage_nodes[activeNet].map((node: string) => (
+														<tr key={node}>
 															<td>
-																{node[0]}
-															</td>
-															<td>
-																<s>{node[1]}</s>
+																{node}
 															</td>
 														</tr>
 													))}
