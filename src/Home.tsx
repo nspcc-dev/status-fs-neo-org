@@ -307,8 +307,8 @@ const Home = ({
 									>
 										<Heading subtitle weight="semibold">Gateways</Heading>
 										<div className="info_caption">
-											<p>This is a public gateway that MUST NOT be used for production applications, but it can be used for test purposes.</p>
-											<p>It's a centralization point and it's not guaranteed to always be available.</p>
+											<p>These are public gateways that MUST NOT be used for production applications. Use them only for test purposes.</p>
+											<p>No availability guarantees provided for them, connections are limited.</p>
 										</div>
 										<Table.Container>
 											<Table>
@@ -319,11 +319,19 @@ const Home = ({
 																REST
 															</abbr>
 														</th>
+														<th>
+															<abbr>
+																S3
+															</abbr>
+														</th>
 													</tr>
 												</thead>
 												<tbody>
 													{data.gateways && data.gateways[activeNet].map((node: string[]) => (
-														<tr key={node[1]}>
+														<tr key={node[0]}>
+															<td>
+																{node[0]}
+															</td>
 															<td>
 																{node[1]}
 															</td>
