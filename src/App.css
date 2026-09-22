@@ -89,6 +89,7 @@ a.navbar-item:hover {
 .table {
     width: 100%;
     border-radius: 4px;
+    table-layout: fixed;
 }
 
 .table td,
@@ -277,6 +278,12 @@ a.navbar-item:hover {
 
     #main>.tile {
         flex-basis: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    .table {
+        table-layout: unset;
     }
 }
 
