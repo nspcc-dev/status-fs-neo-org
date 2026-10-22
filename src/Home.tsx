@@ -470,6 +470,10 @@ const Home = ({
 											{`Nodes: `}
 											<span>{data.node_map && data.node_map.map((item: NodeMap) => item.nodes).flat().reduce((prev: number, cur: Node) => cur.net === (activeNet === 'mainnet' ? 'main' : 'test') ? prev + cur.value : prev, 0)}</span>
 										</Heading>
+										<Heading subtitle size={6}>
+											{`Network map version: `}
+											<span>{data.network_map_version?.[activeNet] ?? 'unknown'}</span>
+										</Heading>
 										<div id="mapcontainer" />
 									</Tile>
 								</Tile>

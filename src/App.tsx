@@ -24,6 +24,10 @@ export interface Data {
 		"mainnet": number | string
 		"testnet": number | string
 	}
+	"network_map_version"?: {
+		"mainnet": number | string
+		"testnet": number | string
+	}
 	"containers": {
 		"mainnet": number | string
 		"testnet": number | string
