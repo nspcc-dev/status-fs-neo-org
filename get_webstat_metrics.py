@@ -86,6 +86,20 @@ async def main():
             "mainnet": "unknown",
             "testnet": "unknown",
         },
+        "network_settings": {
+            "mainnet": {
+                "basic_income_rate": "unknown",
+                "container_fee": "unknown",
+                "container_alias_fee": "unknown",
+                "epoch_duration": "unknown",
+            },
+            "testnet": {
+                "basic_income_rate": "unknown",
+                "container_fee": "unknown",
+                "container_alias_fee": "unknown",
+                "epoch_duration": "unknown",
+            },
+        },
         "containers": {
             "mainnet": "unknown",
             "testnet": "unknown",
@@ -179,6 +193,14 @@ async def main():
                 output['network_epoch']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap_version':
                 output['network_map_version']['mainnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_basic_income_rate':
+                output['network_settings']['mainnet']['basic_income_rate'] = family.samples[0].value
+            if family.name == 'neo_exporter_container_fee':
+                output['network_settings']['mainnet']['container_fee'] = family.samples[0].value
+            if family.name == 'neo_exporter_container_alias_fee':
+                output['network_settings']['mainnet']['container_alias_fee'] = family.samples[0].value
+            if family.name == 'neo_exporter_epoch_duration':
+                output['network_settings']['mainnet']['epoch_duration'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_objects':
@@ -219,6 +241,14 @@ async def main():
                 output['network_epoch']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_netmap_version':
                 output['network_map_version']['testnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_basic_income_rate':
+                output['network_settings']['testnet']['basic_income_rate'] = family.samples[0].value
+            if family.name == 'neo_exporter_container_fee':
+                output['network_settings']['testnet']['container_fee'] = family.samples[0].value
+            if family.name == 'neo_exporter_container_alias_fee':
+                output['network_settings']['testnet']['container_alias_fee'] = family.samples[0].value
+            if family.name == 'neo_exporter_epoch_duration':
+                output['network_settings']['testnet']['epoch_duration'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_objects':

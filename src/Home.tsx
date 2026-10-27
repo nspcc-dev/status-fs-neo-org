@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Container,
 	Table,
@@ -51,6 +51,22 @@ const Home = ({
 	isLoading,
 	data,
 }) => {
+	const networkSettings = data?.network_settings?.[activeNet];
+	const [tooltipsDismissed, setTooltipsDismissed] = useState(false);
+
+	useEffect(() => {
+		const dismissTooltips = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') setTooltipsDismissed(true);
+		};
+		window.addEventListener('keydown', dismissTooltips);
+		return () => window.removeEventListener('keydown', dismissTooltips);
+	}, []);
+
+	const showTooltip = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setTooltipsDismissed(false);
+		event.currentTarget.focus();
+	};
+
 	useEffect(() => {
 		const mapcontainer: HTMLElement | null = document.getElementById('mapcontainer');
 		if (mapcontainer) {
@@ -145,6 +161,17 @@ const Home = ({
 		const dataTimeMs: number = data.time * 1000;
 		const timeRelevance: number = 2 * 300000; // new data generate each 300000 ms, check for double missing data time
     return currentTimestamp - dataTimeMs < timeRelevance;
+	};
+
+	function formatNetworkSetting(value: number | string | undefined, unit: string, divisor = 1): React.ReactNode {
+		return (
+			<>
+				{typeof value === 'number'
+					? (value / divisor).toLocaleString('en-US', { maximumFractionDigits: 12, useGrouping: false })
+					: 'unknown'}
+				{'\u2009'}<small className="network-setting-unit">{unit}</small>
+			</>
+		);
 	};
 
 	function formatBytes(bytes: number): string {
@@ -271,6 +298,109 @@ const Home = ({
 											</div>
 										</Heading>
 										<Heading subtitle weight="semibold">{`${data.containers && formatBytes(data.containers_size[activeNet])} / ${data.containers && formatBytes(data.capacity[activeNet] * 1024 * 1024 * 1024)}`}</Heading>
+									</Tile>
+								</Tile>
+							</Tile>
+							<Tile
+								kind="ancestor"
+								id="network-settings"
+								data-tooltips-dismissed={tooltipsDismissed}
+								onFocus={() => setTooltipsDismissed(false)}
+							>
+								<Tile kind="parent">
+									<Tile kind="child" renderAs={Notification} color="grey">
+										<Heading subtitle size={6}>
+											Storage fee
+											<span className="tooltip_block" onMouseEnter={() => setTooltipsDismissed(false)}>
+												<button
+													type="button"
+													className="tooltip_icon"
+													aria-label="About storage fee"
+													aria-describedby="storage-fee-tooltip"
+													onClick={showTooltip}
+												>
+													<img src="/img/icons/info_circle.svg" width={18} height={18} alt="" />
+												</button>
+												<span className="tooltip" id="storage-fee-tooltip" role="tooltip">
+													Base fee for storing 1 GB of data for one epoch.
+												</span>
+											</span>
+										</Heading>
+										<Heading subtitle weight="semibold">
+											{formatNetworkSetting(networkSettings?.basic_income_rate, 'GAS / GB / epoch', 1e12)}
+										</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile kind="child" renderAs={Notification} color="grey">
+										<Heading subtitle size={6}>
+											Container creation fee
+											<span className="tooltip_block" onMouseEnter={() => setTooltipsDismissed(false)}>
+												<button
+													type="button"
+													className="tooltip_icon"
+													aria-label="About container creation fee"
+													aria-describedby="container-fee-tooltip"
+													onClick={showTooltip}
+												>
+													<img src="/img/icons/info_circle.svg" width={18} height={18} alt="" />
+												</button>
+												<span className="tooltip" id="container-fee-tooltip" role="tooltip">
+													Fee paid to each Alphabet node when creating a container. Total fee is this value multiplied by the number of Alphabet nodes.
+												</span>
+											</span>
+										</Heading>
+										<Heading subtitle weight="semibold">
+											{formatNetworkSetting(networkSettings?.container_fee, 'GAS', 1e12)}
+										</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile kind="child" renderAs={Notification} color="grey">
+										<Heading subtitle size={6}>
+											Container name fee
+											<span className="tooltip_block" onMouseEnter={() => setTooltipsDismissed(false)}>
+												<button
+													type="button"
+													className="tooltip_icon"
+													aria-label="About container name fee"
+													aria-describedby="container-alias-fee-tooltip"
+													onClick={showTooltip}
+												>
+													<img src="/img/icons/info_circle.svg" width={18} height={18} alt="" />
+												</button>
+												<span className="tooltip" id="container-alias-fee-tooltip" role="tooltip">
+													Additional fee paid to each Alphabet node when creating a container with a global name. Added to the container creation fee for each node.
+												</span>
+											</span>
+										</Heading>
+										<Heading subtitle weight="semibold">
+											{formatNetworkSetting(networkSettings?.container_alias_fee, 'GAS', 1e12)}
+										</Heading>
+									</Tile>
+								</Tile>
+								<Tile kind="parent">
+									<Tile kind="child" renderAs={Notification} color="grey">
+										<Heading subtitle size={6}>
+											Epoch duration
+											<span className="tooltip_block" onMouseEnter={() => setTooltipsDismissed(false)}>
+												<button
+													type="button"
+													className="tooltip_icon"
+													aria-label="About epoch duration"
+													aria-describedby="epoch-duration-tooltip"
+													onClick={showTooltip}
+												>
+													<img src="/img/icons/info_circle.svg" width={18} height={18} alt="" />
+												</button>
+												<span className="tooltip" id="epoch-duration-tooltip" role="tooltip">
+													Configured duration of a NeoFS epoch in seconds.
+												</span>
+											</span>
+										</Heading>
+										<Heading subtitle weight="semibold">
+											{formatNetworkSetting(networkSettings?.epoch_duration, 'sec')}
+										</Heading>
 									</Tile>
 								</Tile>
 							</Tile>

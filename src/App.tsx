@@ -28,6 +28,14 @@ export interface Data {
 		"mainnet": number | string
 		"testnet": number | string
 	}
+	"network_settings"?: {
+		[net in 'mainnet' | 'testnet']: {
+			"basic_income_rate": number | string
+			"container_fee": number | string
+			"container_alias_fee": number | string
+			"epoch_duration": number | string
+		}
+	}
 	"containers": {
 		"mainnet": number | string
 		"testnet": number | string

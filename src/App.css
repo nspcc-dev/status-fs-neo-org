@@ -86,6 +86,61 @@ a.navbar-item:hover {
     font-weight: 600;
 }
 
+#network-settings > .tile {
+    display: flex;
+}
+
+#network-settings .notification {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+#network-settings .subtitle.is-6 {
+    font-size: 14px;
+    margin-bottom: .75rem;
+    padding-right: 1.5rem;
+}
+
+#network-settings .tooltip_icon {
+    margin-top: 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    line-height: 0;
+}
+
+#network-settings .tooltip {
+    top: auto;
+    bottom: calc(100% - 1rem);
+    right: 0;
+    max-width: 100%;
+    font-weight: 400;
+}
+
+#network-settings .tooltip_block:focus-within .tooltip {
+    display: block;
+}
+
+#network-settings[data-tooltips-dismissed="true"] .tooltip_block .tooltip {
+    display: none;
+}
+
+#network-settings .subtitle.has-text-weight-semibold {
+    margin-top: auto;
+    font-variant-numeric: tabular-nums;
+}
+
+#network-settings .network-setting-unit {
+    display: block;
+    margin-top: .25rem;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    opacity: .75;
+}
+
 .table {
     width: 100%;
     border-radius: 4px;
@@ -250,7 +305,8 @@ a.navbar-item:hover {
         border-radius: 0 3px 0 0;
     }
 
-    .socials a {
+    .socials a,
+    #network-settings .tooltip_icon {
         filter: invert(1);
     }
 
@@ -270,13 +326,15 @@ a.navbar-item:hover {
 }
 
 @media (max-width: 1000px) {
-    #main {
+    #main,
+    #network-settings {
         margin-top: .5rem !important;
         flex-wrap: wrap;
         display: flex;
     }
 
-    #main>.tile {
+    #main>.tile,
+    #network-settings>.tile {
         flex-basis: 50%;
     }
 }
@@ -288,7 +346,8 @@ a.navbar-item:hover {
 }
 
 @media (max-width: 550px) {
-    #main .tile .subtitle.has-text-weight-semibold {
+    #main .tile .subtitle.has-text-weight-semibold,
+    #network-settings .tile .subtitle.has-text-weight-semibold {
         font-size: 16px;
     }
 }
@@ -314,17 +373,20 @@ a.navbar-item:hover {
         width: 140px;
     }
 
-    #main {
+    #main,
+    #network-settings {
         padding: 0 0.5rem;
     }
 
-    #main>.tile {
+    #main>.tile,
+    #network-settings>.tile {
         padding: .25rem;
     }
 }
 
 @media (max-width: 400px) {
-    #main .tile .subtitle.has-text-weight-semibold {
+    #main .tile .subtitle.has-text-weight-semibold,
+    #network-settings .tile .subtitle.has-text-weight-semibold {
         font-size: 14px;
     }
 }
