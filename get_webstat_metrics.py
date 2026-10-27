@@ -82,6 +82,10 @@ async def main():
             "mainnet": "unknown",
             "testnet": "unknown",
         },
+        "network_map_version": {
+            "mainnet": "unknown",
+            "testnet": "unknown",
+        },
         "containers": {
             "mainnet": "unknown",
             "testnet": "unknown",
@@ -173,6 +177,8 @@ async def main():
                 output['contract']['mainnet']['balance'] = family.samples[0].value
             if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['mainnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_netmap_version':
+                output['network_map_version']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['mainnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_objects':
@@ -211,6 +217,8 @@ async def main():
                 output['contract']['testnet']['balance'] = family.samples[0].value
             if family.name == 'neo_exporter_epoch':
                 output['network_epoch']['testnet'] = family.samples[0].value
+            if family.name == 'neo_exporter_netmap_version':
+                output['network_map_version']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_number':
                 output['containers']['testnet'] = family.samples[0].value
             if family.name == 'neo_exporter_containers_objects':
