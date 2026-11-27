@@ -306,7 +306,7 @@ a.navbar-item:hover {
     }
 
     .socials a,
-    #network-settings .tooltip_icon {
+    .tooltip_icon {
         filter: invert(1);
     }
 
